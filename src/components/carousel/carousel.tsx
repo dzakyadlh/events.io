@@ -68,7 +68,10 @@ const Carousel: React.FC<CarouselProps> = ({
       <div className="splide__track">
         <div className="splide__list">
           {slides.map((slide, index) => (
-            <div key={index} className="splide__slide">
+            <div
+              key={index}
+              className="splide__slide border-4 border-black rounded-xl h-96"
+            >
               <Link className="" href="/events">
                 <img
                   className="relative h-full object-cover rounded-lg"

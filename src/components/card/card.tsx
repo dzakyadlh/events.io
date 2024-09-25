@@ -1,25 +1,39 @@
 import { ClassValue } from 'clsx';
 import { cn } from '@/lib/utils';
+import React, { useEffect } from 'react';
+import Link from 'next/link';
+import { EmblaOptionsType } from 'embla-carousel';
+import useEmblaCarousel from 'embla-carousel-react';
+import styles from './card.module.css';
 
 type CardItem = {
   title: string;
   category: string;
   date: string;
   image: string;
+  className?: ClassValue;
 };
 
 interface CardItems {
   cardItems: CardItem[];
+  interval?: number;
   className?: ClassValue;
+  options?: EmblaOptionsType;
 }
 
-export function Card({ title, category, date, image }: CardItem) {
+export function Card({ title, category, date, image, className }: CardItem) {
   return (
-    <div className="bg-white h-96 w-72 rounded-lg flex flex-col">
+    <Link
+      href="/events"
+      className={cn(
+        'bg-white h-96 rounded-xl flex flex-col border-4 border-black',
+        className
+      )}
+    >
       <img
         src={image}
         alt={title}
-        className="h-1/2 rounded-t-lg object-cover"
+        className="h-3/5 rounded-t-lg object-cover border-b-2 border-black"
       />
       <div className="h-full flex flex-col p-4 gap-2">
         <h5 className="font-semibold text-black text-xl">{title}</h5>
@@ -28,8 +42,34 @@ export function Card({ title, category, date, image }: CardItem) {
           <p className="font-semibold text-black text-md">{date}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
-export function CardList({ cardItems, className }: CardItems) {}
+export const CardList: React.FC<CardItems> = ({
+  cardItems,
+  interval = 3000,
+  className,
+  options,
+}: CardItems) => {
+  const [emblaRef, emblaApi] = useEmblaCarousel(options);
+
+  return (
+    <section className={cn(styles.embla, className)}>
+      <div className={styles.embla__viewport} ref={emblaRef}>
+        <div className={styles.embla__container}>
+          {cardItems.map((card, index) => (
+            <Card
+              key={index}
+              title={card.title}
+              category={card.category}
+              date={card.date}
+              image={card.image}
+              className={styles.embla__slide}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};

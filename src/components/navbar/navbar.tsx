@@ -1,4 +1,3 @@
-// src/components/Navbar.tsx
 'use client'; // Enables client-side interactivity
 
 import { useState } from 'react';
@@ -12,8 +11,8 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-screen p-1">
-      <div className="bg-indigo-500 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 rounded-md">
+    <nav className="fixed w-full px-10 py-5 z-50">
+      <div className="bg-indigo-500 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-indigo-300">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <Link href="/" className="text-white text-xl font-bold">
