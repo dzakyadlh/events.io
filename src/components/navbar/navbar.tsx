@@ -15,7 +15,10 @@ export default function Navbar() {
       <div className="bg-indigo-500 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-indigo-300">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
-            <Link href="/" className="text-white text-xl font-bold">
+            <Link
+              href="/"
+              className="font-bold text-xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300"
+            >
               Events.io
             </Link>
             <div className="hidden md:block">

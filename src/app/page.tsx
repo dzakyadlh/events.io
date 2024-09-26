@@ -97,13 +97,12 @@ export default function Home() {
     },
   ];
 
-  const OPTIONS: EmblaOptionsType = { loop: true, align: 'center' };
   return (
     <div className="min-h-full max-w-screen bg-white">
       <Navbar />
-      <header className="w-full h-[90vh] bg-indigo-950 text-white flex flex-col items-center justify-center">
+      <header className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center">
         <div className="mb-5">
-          <h1 className="font-bold text-5xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-red-500">
+          <h1 className="font-bold text-5xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
             Expand Your Knowledge <br></br> by Joining Our Greatest Events
           </h1>
         </div>
@@ -135,7 +134,7 @@ export default function Home() {
           <img src="./images/google.png" alt="apple" className="w-40" />
         </div>
       </section>
-      <section className="bg-indigo-100 py-24 flex flex-col justify-center gap-10">
+      <section className="bg-slate-100 py-24 flex flex-col justify-center gap-10">
         <div className="mx-10">
           <p className="font-semibold text-xl mb-4">Grow Today</p>
           <h2 className="font-bold text-black text-3xl">Featured Events</h2>
