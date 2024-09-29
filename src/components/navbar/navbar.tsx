@@ -2,26 +2,29 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Button from '../button/button';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
   return (
-    <nav className="fixed w-full px-10 py-5 z-50">
+    <nav className="fixed w-screen px-10 py-5 z-50">
       <div className="bg-indigo-500 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-indigo-300">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
+        <div className="w-full flex items-center justify-between h-16">
+          <div className="w-full flex items-center">
             <Link
               href="/"
               className="font-bold text-xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300"
             >
               Events.io
             </Link>
-            <div className="hidden md:block">
+            <div className="w-full hidden md:flex items-center justify-between">
               <div className="ml-10 flex items-baseline space-x-4">
                 <Link
                   href="/"
@@ -41,6 +44,20 @@ export default function Navbar() {
                 >
                   About
                 </Link>
+              </div>
+              <div className="ml-auto flex items-baseline justify-self-end space-x-4">
+                <Button
+                  onClick={() => {
+                    router.push('/login');
+                  }}
+                  children="Login"
+                />
+                <Button
+                  onClick={() => {
+                    router.push('/signup');
+                  }}
+                  children="Sign Up"
+                />
               </div>
             </div>
           </div>
@@ -104,6 +121,18 @@ export default function Navbar() {
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Contact
+            </Link>
+            <Link
+              href="/contact"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Login
+            </Link>
+            <Link
+              href="/contact"
+              className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+            >
+              Sign Up
             </Link>
           </div>
         </div>

@@ -10,7 +10,7 @@ const Events = () => {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen w-screen box-border bg-white">
+    <div className="min-h-screen w-screen box-border bg-white overflow-hidden">
       <Navbar />
       <header className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 gap-10 py-40">
         <img

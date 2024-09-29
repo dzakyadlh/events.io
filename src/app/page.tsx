@@ -98,7 +98,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-full max-w-screen bg-white">
+    <div className="min-h-full max-w-screen bg-white overflow-hidden">
       <Navbar />
       <header className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center">
         <div className="mb-5">
