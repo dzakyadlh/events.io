@@ -12,21 +12,21 @@ const Events = () => {
   return (
     <div className="min-h-screen w-screen box-border bg-white overflow-hidden">
       <Navbar />
-      <header className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 gap-10 py-40">
+      <header className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 gap-10 py-40 px-5">
         <img
           src="./images/design_seminar.png"
           alt="thumbnail"
-          className="w-[60vw] rounded-xl shadow-custom-black"
+          className="md:w-[60vw] w-[90vw] rounded-xl shadow-custom-black"
         />
-        <div className="w-[60vw] flex justify-between relative">
-          <div className="w-[60%]">
-            <h1 className="font-semibold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
-              Start Your Design Career <br />
+        <div className="md:w-[60vw] flex max-md:flex-col justify-between relative">
+          <div className="md:w-[60%]">
+            <h1 className="font-semibold md:text-5xl text-3xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+              Start Your Design Career <br className="hidden md:block" />
               With Design Sprint
             </h1>
           </div>
 
-          <div className="absolute w-80 flex flex-col px-5 py-8 rounded-3xl bg-white gap-5 -bottom-25 -right-24 border-2 border-black">
+          <div className="relative md:absolute w-80 flex flex-col px-5 py-8 max-md:mt-10 rounded-3xl bg-white gap-5 md:-bottom-25 md:-right-24 border-2 border-black">
             <p className="text-black font-semibold text-xl">Your Speaker</p>
             <div className="flex gap-3">
               <img src="./images/girlpp.png" alt="figma" className="w-12" />
@@ -78,7 +78,7 @@ const Events = () => {
           </div>
         </div>
       </header>
-      <main className="w-[60vw] flex flex-col text-black px-40 py-20 gap-10">
+      <main className="xl:w-[60vw] flex flex-col text-black md:px-40 px-5 py-20 gap-10">
         <div>
           <h5 className="font-semibold text-2xl mb-6">Event Details</h5>
           <p className="text-black leading-loose">
@@ -137,12 +137,12 @@ const Events = () => {
         </div>
         <div>
           <h5 className="font-semibold text-2xl mb-6">Location on Maps</h5>
-          <div className="relative w-96 h-56 rounded-xl overflow-clip">
-            <div className="absolute w-96 h-56 rounded-xl bg-black opacity-35"></div>
+          <div className="relative md:w-96 w-[90vw] h-56 rounded-xl overflow-clip">
+            <div className="absolute md:w-96 w-[90vw] h-56 rounded-xl bg-black opacity-35"></div>
             <img
               src="./images/maps.png"
               alt="gmaps"
-              className="w-96 object-cover"
+              className="md:w-96 w-[90vw] object-cover"
             />
           </div>
         </div>

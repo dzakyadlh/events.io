@@ -1,9 +1,19 @@
+@media (max-width: 768px) {
+  .embla {
+    max-width: 100vw;
+    margin: auto;
+    --slide-height: 19rem;
+    --slide-spacing: 1rem;
+    --slide-size: 20%;
+  }
+}
+
 .embla {
   max-width: 100vw;
   margin: auto;
   --slide-height: 19rem;
   --slide-spacing: 1rem;
-  --slide-size: 20%;
+  --slide-size: 80vw;
 }
 .embla__viewport {
   overflow: hidden;

@@ -11,18 +11,18 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const router = useRouter();
   return (
-    <div className="bg-slate-900 min-h-screen w-screen flex flex-col items-center justify-center">
-      <div className="w-full flex justify-center">
+    <div className="bg-slate-900 min-h-screen w-screen flex flex-col items-center justify-center px-5 py-10">
+      <div className="w-full flex max-md:flex-col justify-center items-center">
         <div className="md:w-[30%] flex flex-col justify-center">
-          <h1 className="font-semibold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+          <h1 className="font-semibold md:text-5xl text-3xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
             Expand Your Knowledge & Skill
           </h1>
-          <p className="mt-5 text-white font-medium text-xl">
+          <p className="mt-5 text-white font-medium md:text-xl text-md">
             We offer a diverse range of top-notch events designed to enhance
             your skills in the technology field.
           </p>
         </div>
-        <div className="w-[25%] flex flex-col justify-center bg-white ml-20 p-10 rounded-xl">
+        <div className="xl:w-[25%] md:w-[40%] w-[90%] flex flex-col justify-center bg-white p-10 rounded-xl max-md:mt-10">
           <div className="mb-5">
             <p className="text-black font-medium text-md mb-2">First Name</p>
             <Input
@@ -64,7 +64,7 @@ const SignUp = () => {
         <p className="text-gray-600 text-center font-medium text-md">
           Events held and approved by top companies
         </p>
-        <div className="flex align-middle justify-center gap-10">
+        <div className="flex align-middle justify-center gap-10 flex-wrap">
           <img src="./images/apple.png" alt="apple" className="w-20" />
           <img src="./images/adobe.png" alt="apple" className="w-20" />
           <img src="./images/slack.png" alt="apple" className="w-20" />

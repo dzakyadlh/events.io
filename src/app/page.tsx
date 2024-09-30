@@ -100,14 +100,16 @@ export default function Home() {
   return (
     <div className="min-h-full max-w-screen bg-white overflow-hidden">
       <Navbar />
-      <header className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center">
+      <header className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center px-5">
         <div className="mb-5">
-          <h1 className="font-bold text-5xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
-            Expand Your Knowledge <br></br> by Joining Our Greatest Events
+          <h1 className="font-bold md:text-5xl text-4xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+            Expand Your Knowledge <br className="md:block hidden"></br> by
+            Joining Our Greatest Events
           </h1>
         </div>
-        <p className="font-medium text-xl text-center">
-          We offer a diverse range of top-notch events designed to<br></br>
+        <p className="font-medium md:text-xl text-center">
+          We offer a diverse range of top-notch events designed to
+          <br className="md:block hidden"></br>
           enhance your skills in the technology field.
         </p>
         <Button
@@ -119,19 +121,23 @@ export default function Home() {
           Browse Now
         </Button>
       </header>
-      <section className="relative flex flex-col align-middle justify-center">
+      <section className="hidden relative md:flex flex-col align-middle justify-center">
         <Carousel slides={slides} className="absolute bottom-50" />
       </section>
-      <section className="flex flex-col align-middle justify-center mt-48 py-20 gap-10">
-        <p className="text-gray-600 text-center font-medium text-1.5xl">
+      <section className="flex flex-col align-middle justify-center md:mt-48 py-20 gap-10">
+        <p className="text-gray-600 text-center font-medium mid:text-1.5xl text-sm">
           Events held and approved by top companies
         </p>
-        <div className="flex align-middle justify-center gap-10">
-          <img src="./images/apple.png" alt="apple" className="w-40" />
-          <img src="./images/adobe.png" alt="apple" className="w-40" />
-          <img src="./images/slack.png" alt="apple" className="w-40" />
-          <img src="./images/spotify.png" alt="apple" className="w-40" />
-          <img src="./images/google.png" alt="apple" className="w-40" />
+        <div className="flex align-middle justify-center md:gap-10 gap-4 flex-wrap">
+          <img src="./images/apple.png" alt="apple" className="md:w-40 w-24" />
+          <img src="./images/adobe.png" alt="apple" className="md:w-40 w-24" />
+          <img src="./images/slack.png" alt="apple" className="md:w-40 w-24" />
+          <img
+            src="./images/spotify.png"
+            alt="apple"
+            className="md:w-40 w-24"
+          />
+          <img src="./images/google.png" alt="apple" className="md:w-40 w-24" />
         </div>
       </section>
       <section className="bg-slate-100 py-24 flex flex-col justify-center gap-10">
@@ -141,14 +147,14 @@ export default function Home() {
         </div>
         <CardList cardItems={cardItems} />
       </section>
-      <section className="bg-white py-24 flex align-middle justify-center gap-10">
+      <section className="bg-white py-24 flex max-md:flex-col align-middle justify-center max-md:items-center gap-10">
         <div className="relative">
           <img
             src="./images/girl.png"
             alt="girl"
-            className="h-[30rem] rounded-3xl border-4 border-black"
+            className="md:h-[30rem] h-96 rounded-3xl border-4 border-black"
           />
-          <div className="absolute flex flex-col p-4 rounded-3xl bg-white gap-8 -bottom-10 -left-20 border-2 border-black">
+          <div className="absolute hidden md:flex flex-col p-4 rounded-3xl bg-white gap-8 -bottom-10 -left-20 border-2 border-black">
             <div className="flex gap-3">
               <img src="./images/figma.png" alt="figma" className="w-12" />
               <div className="flex flex-col">
@@ -168,7 +174,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-5 max-w-[30vw] justify-center">
+        <div className="flex flex-col gap-5 md:max-w-[30vw] justify-center px-5">
           <div>
             <p className="leading-snug font-semibold text-xl">Story</p>
             <p className="leading-snug font-semibold text-4xl">
@@ -190,7 +196,7 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="w-[40vw] bg-white py-24 flex align-middle justify-between mx-auto">
+      <section className="md:w-[40vw] bg-white md:py-24 pb-24 flex flex-wrap align-middle justify-center mx-auto md:gap-10 gap-5 px-5">
         <div className="flex flex-col">
           <p className="font-semibold text-black text-3xl leading-relaxed text-center">
             190K+

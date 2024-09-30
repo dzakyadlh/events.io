@@ -14,7 +14,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-screen px-10 py-5 z-50">
+    <nav className="fixed w-screen mid:px-10 px-5 py-5 z-50">
       <div className="bg-indigo-500 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-indigo-300">
         <div className="w-full flex items-center justify-between h-16">
           <div className="w-full flex items-center">
@@ -123,13 +123,13 @@ export default function Navbar() {
               Contact
             </Link>
             <Link
-              href="/contact"
+              href="/login"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Login
             </Link>
             <Link
-              href="/contact"
+              href="/signup"
               className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
             >
               Sign Up

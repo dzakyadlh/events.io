@@ -11,7 +11,7 @@ const Login = () => {
   return (
     <div className="bg-slate-900 min-h-screen w-screen flex flex-col items-center justify-center">
       <div className="w-full flex justify-center">
-        <div className="w-[25%] flex flex-col justify-center bg-white ml-20 p-10 rounded-xl">
+        <div className="xl:w-[25%] md:w-[40%] w-[90%] flex flex-col justify-center bg-white p-10 rounded-xl">
           <div className="mb-5">
             <p className="text-black font-medium text-md mb-2">Email</p>
             <Input value={email} setValue={setEmail} placeholder="Email" />
@@ -40,11 +40,11 @@ const Login = () => {
           />
         </div>
       </div>
-      <section className="flex flex-col align-middle justify-center pt-20 gap-10">
+      <section className="hidden md:flex flex-col align-middle justify-center pt-20 gap-10">
         <p className="text-gray-600 text-center font-medium text-md">
           Events held and approved by top companies
         </p>
-        <div className="flex align-middle justify-center gap-10">
+        <div className="flex align-middle justify-center gap-10 flex-wrap">
           <img src="./images/apple.png" alt="apple" className="w-20" />
           <img src="./images/adobe.png" alt="apple" className="w-20" />
           <img src="./images/slack.png" alt="apple" className="w-20" />
