@@ -1,13 +1,60 @@
 'use client';
 import Button from '@/components/button/button';
 import Input from '@/components/input/input';
+import { CircularProgress } from '@nextui-org/progress';
+import axios, { AxiosResponse } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { useMutation, UseMutationResult } from 'react-query';
+
+interface User {
+  email: string;
+  password: string;
+}
+
+interface ApiResponse {
+  message: string;
+  data: {
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    token: string;
+  };
+}
+
+const login = async (user: User): Promise<ApiResponse> => {
+  const response: AxiosResponse<ApiResponse> = await axios.post(
+    'http://localhost:5000/auth/login',
+    user
+  );
+  return response.data;
+};
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
+  const mutation: UseMutationResult<ApiResponse, Error, User> = useMutation(
+    login,
+    {
+      onSuccess: (data) => {
+        localStorage.setItem('token', data.data.token);
+        localStorage.setItem('user', JSON.stringify(data.data));
+        router.push('/events');
+      },
+      onError: (error: Error) => {
+        console.error('Registration failed:', error.message);
+      },
+    }
+  );
+
+  const handleLogin = () => {
+    const payload = { email, password };
+    mutation.mutate(payload);
+  };
+
   return (
     <div className="bg-slate-900 min-h-screen w-screen flex flex-col items-center justify-center">
       <div className="w-full flex justify-center">
@@ -25,10 +72,18 @@ const Login = () => {
             />
           </div>
           <Button
-            onClick={() => {
-              router.push('/events');
-            }}
-            children="Login"
+            onClick={handleLogin}
+            children={
+              mutation.isLoading ? (
+                <CircularProgress
+                  color="default"
+                  aria-label="Loading..."
+                  size="md"
+                />
+              ) : (
+                'Login'
+              )
+            }
             className="mt-5 justify-center"
           />
           <Button

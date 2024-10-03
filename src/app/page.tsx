@@ -5,13 +5,41 @@ import { Card, CardList } from '@/components/card/card';
 import Carousel from '@/components/carousel/carousel';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
+import api from '@/utils/api';
+import axios from 'axios';
 import { EmblaOptionsType } from 'embla-carousel';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
+import { useQuery } from 'react-query';
+
+interface Event {
+  title: string;
+  description: string;
+  date: Date;
+  location: string;
+  poster: string;
+  host_user_id: string;
+  category_id: string;
+}
+
+const getEvents = async () => {
+  const res = await api.get('/events');
+  return res.data; // Ensure to return the data from the response
+};
 
 export default function Home() {
   const router = useRouter();
+
+  const { data: events, error, isLoading } = useQuery('events', getEvents);
+
+  if (isLoading) {
+    return <div>Loading events...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching data</div>;
+  }
 
   const slides = [
     {
@@ -43,57 +71,6 @@ export default function Home() {
       title: 'Team Management Training',
       date: 'Surabaya, 5 Sep 2022',
       joined: '90K joined',
-    },
-  ];
-
-  const cardItems = [
-    {
-      title: 'Learn Jira for Sprint Design Venture',
-      category: 'Product Design',
-      date: 'Bandung, 22 Jan 2022',
-      image: './images/event1.png',
-    },
-    {
-      title: 'Team Management for Long Term',
-      category: 'Product Design',
-      date: 'Jakarta, 11 Aug 2022',
-      image: './images/event2.png',
-    },
-    {
-      title: 'Set Marketing Target for Saas',
-      category: 'Product Design',
-      date: 'Bandung, 22 Jan 2022',
-      image: './images/event3.png',
-    },
-    {
-      title: 'Google Adsense from Zero to Big Bucks',
-      category: 'Product Design',
-      date: 'Jakarta, 11 Aug 2022',
-      image: './images/event4.png',
-    },
-    {
-      title: 'Learn Jira for Sprint Design Venture',
-      category: 'Product Design',
-      date: 'Bandung, 22 Jan 2022',
-      image: './images/event1.png',
-    },
-    {
-      title: 'Team Management for Long Term',
-      category: 'Product Design',
-      date: 'Jakarta, 11 Aug 2022',
-      image: './images/event2.png',
-    },
-    {
-      title: 'Set Marketing Target for Saas',
-      category: 'Product Design',
-      date: 'Bandung, 22 Jan 2022',
-      image: './images/event3.png',
-    },
-    {
-      title: 'Google Adsense from Zero to Big Bucks',
-      category: 'Product Design',
-      date: 'Jakarta, 11 Aug 2022',
-      image: './images/event4.png',
     },
   ];
 
@@ -145,7 +122,7 @@ export default function Home() {
           <p className="font-semibold text-xl mb-4">Grow Today</p>
           <h2 className="font-bold text-black text-3xl">Featured Events</h2>
         </div>
-        <CardList cardItems={cardItems} />
+        <CardList cardItems={events.data || []} />
       </section>
       <section className="bg-white py-24 flex max-md:flex-col align-middle justify-center max-md:items-center gap-10">
         <div className="relative">

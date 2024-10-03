@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { EmblaOptionsType } from 'embla-carousel';
 import useEmblaCarousel from 'embla-carousel-react';
 import styles from './card.module.css';
+import { ddmmmmyyyy } from '@/utils/date_formatter';
 
 type CardItem = {
   title: string;
   category: string;
-  date: string;
-  image: string;
+  date: Date;
+  poster: string;
   className?: ClassValue;
 };
 
@@ -21,7 +22,7 @@ interface CardItems {
   options?: EmblaOptionsType;
 }
 
-export function Card({ title, category, date, image, className }: CardItem) {
+export function Card({ title, category, date, poster, className }: CardItem) {
   return (
     <Link
       href="/events"
@@ -31,7 +32,7 @@ export function Card({ title, category, date, image, className }: CardItem) {
       )}
     >
       <img
-        src={image}
+        src={poster}
         alt={title}
         className="h-3/5 rounded-t-lg object-cover border-b-2 border-black"
       />
@@ -39,7 +40,7 @@ export function Card({ title, category, date, image, className }: CardItem) {
         <h5 className="font-semibold text-black text-xl">{title}</h5>
         <p className="font-light text-gray-500 text-md">{category}</p>
         <div className="mt-auto justify-self-end">
-          <p className="font-semibold text-black text-md">{date}</p>
+          <p className="font-semibold text-black text-sm">{ddmmmmyyyy(date)}</p>
         </div>
       </div>
     </Link>
@@ -64,7 +65,7 @@ export const CardList: React.FC<CardItems> = ({
               title={card.title}
               category={card.category}
               date={card.date}
-              image={card.image}
+              poster={card.poster}
               className={styles.embla__slide}
             />
           ))}

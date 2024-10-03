@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@splidejs/splide/dist/css/splide.min.css';
 import './globals.css';
+import ReactQueryProvider from '@/utils/ReactQueryProvider';
 
 export const metadata: Metadata = {
   title: 'Events.io',
@@ -14,7 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }

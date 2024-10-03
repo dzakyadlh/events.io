@@ -9,8 +9,16 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
+  const isLoggedIn = localStorage.getItem('token');
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    router.push('/');
   };
 
   return (
@@ -45,20 +53,26 @@ export default function Navbar() {
                   About
                 </Link>
               </div>
-              <div className="ml-auto flex items-baseline justify-self-end space-x-4">
-                <Button
-                  onClick={() => {
-                    router.push('/login');
-                  }}
-                  children="Login"
-                />
-                <Button
-                  onClick={() => {
-                    router.push('/signup');
-                  }}
-                  children="Sign Up"
-                />
-              </div>
+              {isLoggedIn ? (
+                <div className="ml-auto flex items-baseline justify-self-end space-x-4">
+                  <Button onClick={handleLogout} children="Logout" />
+                </div>
+              ) : (
+                <div className="ml-auto flex items-baseline justify-self-end space-x-4">
+                  <Button
+                    onClick={() => {
+                      router.push('/login');
+                    }}
+                    children="Login"
+                  />
+                  <Button
+                    onClick={() => {
+                      router.push('/signup');
+                    }}
+                    children="Sign Up"
+                  />
+                </div>
+              )}
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
