@@ -80,8 +80,8 @@ export default function Home() {
       <header className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center px-5">
         <div className="mb-5">
           <h1 className="font-bold md:text-5xl text-4xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
-            Expand Your Knowledge <br className="md:block hidden"></br> by
-            Joining Our Greatest Events
+            Expand Your Knowledge <br className="max-md:hidden"></br> by Joining
+            Our Greatest Events
           </h1>
         </div>
         <p className="font-medium md:text-xl text-center">
