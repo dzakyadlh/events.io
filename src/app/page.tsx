@@ -75,16 +75,23 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-full max-w-screen bg-white overflow-hidden">
+    <div className="min-h-full w-screen max-w-[100vw] bg-white">
       <Navbar />
-      <header className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center px-5">
+      <header
+        className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center px-5"
+        style={{
+          backgroundImage: 'url("./images/team_management.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'top',
+        }}
+      >
         <div className="mb-5">
-          <h1 className="font-bold md:text-5xl text-4xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+          <h1 className="font-bold text-5xl max-md:text-4xl text-center leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300 drop-shadow-xl">
             Expand Your Knowledge <br className="max-md:hidden"></br> by Joining
             Our Greatest Events
           </h1>
         </div>
-        <p className="font-medium md:text-xl text-center">
+        <p className="font-medium md:text-xl text-center drop-shadow-xl">
           We offer a diverse range of top-notch events designed to
           <br className="md:block hidden"></br>
           enhance your skills in the technology field.
@@ -98,10 +105,10 @@ export default function Home() {
           Browse Now
         </Button>
       </header>
-      <section className="hidden relative md:flex flex-col align-middle justify-center">
+      {/* <section className="hidden relative md:flex flex-col align-middle justify-center">
         <Carousel slides={slides} className="absolute bottom-50" />
-      </section>
-      <section className="flex flex-col align-middle justify-center md:mt-48 py-20 gap-10">
+      </section> */}
+      <section className="flex flex-col align-middle justify-center py-20 gap-10">
         <p className="text-gray-600 text-center font-medium mid:text-1.5xl text-sm">
           Events held and approved by top companies
         </p>
@@ -117,7 +124,7 @@ export default function Home() {
           <img src="./images/google.png" alt="apple" className="md:w-40 w-24" />
         </div>
       </section>
-      <section className="bg-slate-100 py-24 flex flex-col justify-center gap-10">
+      <section className="bg-slate-100 py-24 flex flex-col justify-center">
         <div className="mx-10">
           <p className="font-semibold text-xl mb-4">Grow Today</p>
           <h2 className="font-bold text-black text-3xl">Featured Events</h2>
