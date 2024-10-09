@@ -52,7 +52,12 @@ export default function Navbar() {
 
   return (
     <nav className="fixed w-screen md:px-10 px-5 py-5 z-50 box-border">
-      <div className="bg-indigo-900 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-black shadow-custom-black">
+      <motion.div
+        initial={{ width: 0 }}
+        animate={{ width: '100%' }}
+        transition={{ duration: 1 }}
+        className="bg-indigo-900 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-black shadow-custom-black"
+      >
         <div className="w-full flex items-center justify-between h-16">
           <div className="w-full flex items-center">
             <Link
@@ -351,7 +356,7 @@ export default function Navbar() {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {isOpen && (
         <div className="lg:hidden mt-5 rounded-lg">

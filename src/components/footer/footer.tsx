@@ -2,7 +2,7 @@ import React from 'react';
 
 export const Footer: React.FC = () => {
   return (
-    <div className="grid grid-cols-4 min-h-[20vh] bg-slate-900 p-10 pb-24">
+    <div className="w-screen grid grid-cols-4 min-h-[20vh] bg-slate-900 p-10 pb-24 mt-10">
       <div className="flex flex-col">
         <h1 className="font-bold text-xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
           Events.io

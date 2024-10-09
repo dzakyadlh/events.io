@@ -1,27 +1,15 @@
 'use client';
 
 import Button from '@/components/button/button';
-import { Card, CardList } from '@/components/card/card';
-import Carousel from '@/components/carousel/carousel';
+import { Card, Carousel } from '@/components/card/card';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 import api from '@/utils/api';
 import axios from 'axios';
-import { EmblaOptionsType } from 'embla-carousel';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQuery } from 'react-query';
-
-interface Event {
-  title: string;
-  description: string;
-  date: Date;
-  location: string;
-  poster: string;
-  host_user_id: string;
-  category_id: string;
-}
 
 const getEvents = async () => {
   const res = await api.get('/events');
@@ -34,7 +22,13 @@ export default function Home() {
   const { data: events, error, isLoading } = useQuery('events', getEvents);
 
   if (isLoading) {
-    return <div>Loading events...</div>;
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <h1 className="font-bold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300 drop-shadow-lg">
+          Events.io
+        </h1>
+      </div>
+    );
   }
 
   if (error) {
@@ -129,7 +123,7 @@ export default function Home() {
           <p className="font-semibold text-xl mb-4">Grow Today</p>
           <h2 className="font-bold text-black text-3xl">Featured Events</h2>
         </div>
-        <CardList cardItems={events.data || []} />
+        <Carousel cardItems={events.data || []} />
       </section>
       <section className="bg-white py-24 flex max-md:flex-col align-middle justify-center max-md:items-center gap-10">
         <div className="relative">
