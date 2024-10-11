@@ -69,6 +69,8 @@ const Login = () => {
               value={password}
               setValue={setPassword}
               placeholder="Password"
+              type="password"
+              minLength={8}
             />
           </div>
           <Button

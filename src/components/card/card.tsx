@@ -7,6 +7,7 @@ import { Event } from '@/models/event';
 
 type CardItem = {
   event: Event;
+  className?: ClassValue;
 };
 
 interface CardItems {
@@ -14,12 +15,13 @@ interface CardItems {
   className?: ClassValue;
 }
 
-export function Card({ event }: CardItem) {
+export function Card({ event, className }: CardItem) {
   return (
     <Link
       href={`/events/${encodeURIComponent(event._id)}`}
       className={cn(
-        'flex-shrink-0 w-80 bg-indigo-200 h-96 rounded-md flex flex-col border-2 border-black shadow-custom-black'
+        'flex-shrink-0 w-80 bg-indigo-200 h-96 rounded-md flex flex-col border-2 border-black shadow-custom-black',
+        className
       )}
     >
       <img

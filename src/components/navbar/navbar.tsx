@@ -16,6 +16,13 @@ export default function Navbar() {
   const isLoggedIn =
     typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
+  var user;
+  const userData =
+    typeof window !== 'undefined' ? localStorage.getItem('user') : null;
+  if (userData) {
+    user = JSON.parse(userData);
+  }
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -303,8 +310,31 @@ export default function Navbar() {
                 </div>
               </div>
               {isLoggedIn ? (
-                <div className="ml-auto flex items-baseline justify-self-end space-x-4">
-                  <Button onClick={handleLogout} children="Logout" />
+                <div className="ml-auto flex items-center justify-self-end space-x-4">
+                  <div className="ml-auto flex items-baseline justify-self-end space-x-4">
+                    <Button
+                      onClick={() => {
+                        router.push('/dashboard');
+                      }}
+                      children={
+                        <div className="flex gap-2">
+                          <img
+                            src={user.image}
+                            alt="profile picture"
+                            className="w-5 h-5"
+                          />
+                          <p>Dashboard</p>
+                        </div>
+                      }
+                    />
+                  </div>
+                  <div className="ml-auto flex items-baseline justify-self-end space-x-4">
+                    <Button
+                      onClick={handleLogout}
+                      children="Logout"
+                      className="bg-pink-500"
+                    />
+                  </div>
                 </div>
               ) : (
                 <div className="ml-auto flex items-baseline justify-self-end space-x-4">
@@ -582,18 +612,37 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link
-              href="/login"
-              className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Login
-            </Link>
-            <Link
-              href="/signup"
-              className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-            >
-              Sign Up
-            </Link>
+            {isLoggedIn ? (
+              <div>
+                <Link
+                  href="/dashboard"
+                  className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Dashboard
+                </Link>
+                <div
+                  onClick={handleLogout}
+                  className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Logout
+                </div>
+              </div>
+            ) : (
+              <div>
+                <Link
+                  href="/login"
+                  className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/signup"
+                  className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                >
+                  Sign Up
+                </Link>
+              </div>
+            )}
           </motion.div>
         </div>
       )}

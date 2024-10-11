@@ -7,6 +7,9 @@ type Props = {
   value: string;
   setValue: React.Dispatch<React.SetStateAction<string>>;
   placeholder: string;
+  minLength?: number;
+  maxLength?: number;
+  type?: string;
 };
 
 export default function Input({
@@ -14,21 +17,29 @@ export default function Input({
   value,
   setValue,
   placeholder,
+  minLength = 0,
+  maxLength = 100,
+  type = 'text',
 }: Props) {
   return (
-    <input
-      className={cn(
-        'w-full rounded-lg bg-white dark:bg-darkBg border-2 border-border dark:border-darkBorder p-[10px] font-base ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 outline-none',
-        className
-      )}
-      type="text"
-      name="text"
-      placeholder={placeholder}
-      value={value}
-      onChange={(e) => {
-        setValue(e.target.value);
-      }}
-      aria-label={placeholder}
-    />
+    <div className="formkit-outer">
+      <input
+        className={cn(
+          'w-full rounded-lg bg-white dark:bg-darkBg border-2 border-border box-border dark:border-darkBorder p-[10px] font-base ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 outline-none',
+          className
+        )}
+        type={type}
+        name="text"
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+        }}
+        aria-label={placeholder}
+        required
+        minLength={minLength}
+        maxLength={maxLength}
+      />
+    </div>
   );
 }

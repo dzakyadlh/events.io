@@ -78,7 +78,9 @@ const SignUp = () => {
         </div>
         <div className="xl:w-[25%] md:w-[40%] w-[90%] flex flex-col justify-center bg-white p-10 rounded-xl max-md:mt-10">
           <div className="mb-5">
-            <p className="text-black font-medium text-md mb-2">First Name</p>
+            <label className="text-black font-medium text-md mb-2">
+              First Name
+            </label>
             <Input
               value={firstName}
               setValue={setFirstName}
@@ -86,7 +88,9 @@ const SignUp = () => {
             />
           </div>
           <div className="mb-5">
-            <p className="text-black font-medium text-md mb-2">Last Name</p>
+            <label className="text-black font-medium text-md mb-2">
+              Last Name
+            </label>
             <Input
               value={lastName}
               setValue={setLastName}
@@ -94,15 +98,18 @@ const SignUp = () => {
             />
           </div>
           <div className="mb-5">
-            <p className="text-black font-medium text-md mb-2">Email</p>
+            <label className="text-black font-medium text-md mb-2">Email</label>
             <Input value={email} setValue={setEmail} placeholder="Email" />
           </div>
           <div className="mb-5">
-            <p className="text-black font-medium text-md mb-2">Password</p>
+            <label className="text-black font-medium text-md mb-2">
+              Password
+            </label>
             <Input
               value={password}
               setValue={setPassword}
               placeholder="Password"
+              type="password"
             />
           </div>
           <Button
