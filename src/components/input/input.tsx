@@ -25,7 +25,7 @@ export default function Input({
     <div className="formkit-outer">
       <input
         className={cn(
-          'w-full rounded-lg bg-white dark:bg-darkBg border-2 border-border box-border dark:border-darkBorder p-[10px] font-base ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 outline-none',
+          'w-full rounded-lg bg-white dark:bg-darkBg border-2 box-border dark:border-darkBorder p-[10px] font-base border-black outline-none',
           className
         )}
         type={type}

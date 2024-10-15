@@ -61,9 +61,16 @@ const Events = () => {
   return (
     <div className="min-h-screen w-screen box-border bg-white overflow-hidden flex flex-col items-center gap-20">
       <Navbar />
-      <header className="w-full min-h-[20vh] bg-gradient-to-r from-yellow-200 to-red-200 flex flex-col items-center justify-end gap-20 pt-36 pb-20">
-        <h1 className="font-bold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-indigo-700 to-red-700 drop-shadow-xl text-center">
-          Level Up Your Skills: Search for Cool Events
+      <header
+        className="w-full min-h-[20vh] bg-gradient-to-r flex flex-col items-center justify-end gap-10 pt-36 pb-20"
+        style={{
+          backgroundImage: 'url("./images/team_management.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'top',
+        }}
+      >
+        <h1 className="font-bold text-4xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-yellow-400 drop-shadow-xl text-center">
+          Find Events That You Are Looking For
         </h1>
         <SearchBar value={searchTerm} setValue={setSearchTerm} />
       </header>

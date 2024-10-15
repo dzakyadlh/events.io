@@ -257,7 +257,7 @@ export default function Navbar() {
                         <div className="grid grid-cols-2 gap-2 p-4 bg-white w-[60%]">
                           <Link
                             href="#"
-                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                           >
                             <h6 className="font-semibold text-lg mb-2">
                               Company
@@ -269,7 +269,7 @@ export default function Navbar() {
                           </Link>
                           <Link
                             href="#"
-                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                           >
                             <h6 className="font-semibold text-lg mb-2">
                               Features
@@ -281,7 +281,7 @@ export default function Navbar() {
                           </Link>
                           <Link
                             href="#"
-                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                           >
                             <h6 className="font-semibold text-lg mb-2">
                               Collaborations
@@ -293,7 +293,7 @@ export default function Navbar() {
                           </Link>
                           <Link
                             href="#"
-                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                            className="block py-1.5 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                           >
                             <h6 className="font-semibold text-lg mb-2">
                               Newsletter
@@ -567,7 +567,7 @@ export default function Navbar() {
                   <div className="grid grid-cols-2 gap-2 p-4 bg-white">
                     <Link
                       href="#"
-                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                     >
                       <h6 className="font-semibold text-md mb-2">Company</h6>
                       <p className="text-sm">
@@ -577,7 +577,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                       href="#"
-                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                     >
                       <h6 className="font-semibold text-md mb-2">Features</h6>
                       <p className="text-sm">
@@ -587,7 +587,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                       href="#"
-                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                     >
                       <h6 className="font-semibold text-md mb-2">
                         Collaborations
@@ -599,7 +599,7 @@ export default function Navbar() {
                     </Link>
                     <Link
                       href="#"
-                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:shadow-custom-black p-2"
+                      className="block py-1 text-black border-black border-2 rounded-sm transition-all duration-300 hover:bg-indigo-200 p-2"
                     >
                       <h6 className="font-semibold text-md mb-2">Newsletter</h6>
                       <p className="text-sm">

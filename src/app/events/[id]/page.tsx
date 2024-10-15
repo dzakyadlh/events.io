@@ -11,6 +11,10 @@ import { format } from 'date-fns';
 import { useRouter, useParams } from 'next/navigation';
 import { useQuery } from 'react-query';
 import { motion } from 'framer-motion';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookmark, faShareSquare } from '@fortawesome/free-regular-svg-icons';
+import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
+import { useState } from 'react';
 
 const getEvents = async (id: String): Promise<Event> => {
   const res = await api.get(`/events/${id}`);
@@ -18,6 +22,7 @@ const getEvents = async (id: String): Promise<Event> => {
 };
 
 export default function EventDetail() {
+  const [bookmark, setBookmark] = useState(false);
   const router = useRouter();
   const { id } = useParams();
 
@@ -41,6 +46,10 @@ export default function EventDetail() {
     return <div>Error fetching data</div>;
   }
 
+  const handleBookmark = () => {
+    setBookmark(!bookmark);
+  };
+
   return (
     <div className="min-h-screen w-screen box-border bg-white overflow-hidden">
       <Navbar />
@@ -60,7 +69,7 @@ export default function EventDetail() {
             transition={{ type: 'tween', duration: 1 }}
             className="md:w-[60%]"
           >
-            <h1 className="font-semibold text-5xl max-mid:text-3xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+            <h1 className="font-semibold text-4xl md:text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
               {data?.title}
             </h1>
           </motion.div>
@@ -71,7 +80,20 @@ export default function EventDetail() {
             transition={{ type: 'tween', duration: 1 }}
             className="relative md:absolute w-80 flex flex-col px-5 py-8 max-md:mt-10 rounded-3xl bg-white gap-5 md:-bottom-25 md:-right-24 border-2 border-black shadow-custom-black"
           >
-            <p className="text-black font-semibold text-xl">Your Speakers</p>
+            <div className="flex justify-between items-center">
+              <p className="text-black font-semibold text-xl">Your Speakers</p>
+              <div className="flex items-center gap-5">
+                <FontAwesomeIcon icon={faShareSquare} />
+                {bookmark ? (
+                  <FontAwesomeIcon
+                    icon={faBookmarkSolid}
+                    onClick={handleBookmark}
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faBookmark} onClick={handleBookmark} />
+                )}
+              </div>
+            </div>
             <div className="flex gap-3">
               <div className="w-full flex flex-col">
                 <div className="w-full grid grid-cols-3">
@@ -204,7 +226,7 @@ export default function EventDetail() {
           transition={{ type: 'tween', duration: 1, delay: 0.75 }}
         >
           <h5 className="font-semibold text-2xl mb-6">Agenda</h5>
-          <ul className="grid grid-cols-4 lg gap-4 items-start">
+          <ul className="flex gap-4 items-start max-sm:overflow-x-scroll">
             {data?.details?.agenda?.map((agenda, index) => {
               return (
                 <motion.li

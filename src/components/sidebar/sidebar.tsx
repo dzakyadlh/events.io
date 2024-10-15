@@ -6,12 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   IconDefinition,
   faHouse,
-  faCalendarCheck,
   faBookmark,
   faChevronDown,
-  faChevronLeft,
   faChevronCircleRight,
   faUser,
+  faReceipt,
+  faCalendar,
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 
@@ -46,14 +46,13 @@ const Sidebar: React.FC<SidebarProps> = ({ page, setPage }: SidebarProps) => {
   return (
     <motion.nav
       layout
-      className="sticky top-0 left-0 h-screen shrink-0 border-r border-slate-300 bg-white p-2 shadow-custom-black"
-      style={{
-        width: open ? '225px' : 'fit-content',
-      }}
+      className={`sticky top-0 left-0 h-screen max-sm:border-b-2 md:border-r-2 border-black bg-white p-2 transition-all duration-200 ${
+        open ? 'w-[225px]' : 'w-fit'
+      } max-sm:w-screen max-sm:h-fit max-sm:flex max-sm:gap-5 max-sm: justify-center`}
     >
       <TitleSection open={open} />
 
-      <div className="space-y-1">
+      <div className="md:space-y-1 max-sm:flex max-sm:gap-2">
         <Option
           Icon={faUser}
           title="Profile"
@@ -63,7 +62,7 @@ const Sidebar: React.FC<SidebarProps> = ({ page, setPage }: SidebarProps) => {
           notifs={0}
         />
         <Option
-          Icon={faCalendarCheck}
+          Icon={faCalendar}
           title="Registered Events"
           selected={page}
           setSelected={setPage}
@@ -73,6 +72,14 @@ const Sidebar: React.FC<SidebarProps> = ({ page, setPage }: SidebarProps) => {
         <Option
           Icon={faBookmark}
           title="Wishlists"
+          selected={page}
+          setSelected={setPage}
+          open={open}
+          notifs={0}
+        />
+        <Option
+          Icon={faReceipt}
+          title="Transactions"
           selected={page}
           setSelected={setPage}
           open={open}
@@ -105,7 +112,7 @@ const Option: React.FC<OptionProps> = ({
     <motion.button
       layout
       onClick={() => setSelected(title)}
-      className={`relative flex h-10 w-full items-center rounded-md transition-colors ${
+      className={`relative flex h-10 w-full items-center rounded-md transition-colors max-sm:p-2 ${
         selected === title
           ? 'bg-indigo-300 text-indigo-800 border-black border-2'
           : 'text-slate-500 hover:bg-slate-100'
@@ -113,9 +120,9 @@ const Option: React.FC<OptionProps> = ({
     >
       <motion.div
         layout
-        className="grid h-full w-10 place-content-center text-lg"
+        className="grid h-full md:w-10 place-content-center text-lg"
       >
-        <FontAwesomeIcon icon={Icon} />
+        <FontAwesomeIcon icon={Icon} className="max-sm:text-2xl" />
       </motion.div>
       {open && (
         <motion.span
@@ -123,7 +130,7 @@ const Option: React.FC<OptionProps> = ({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.125 }}
-          className="text-xs font-medium"
+          className="text-xs font-medium max-sm:hidden"
         >
           {title}
         </motion.span>
@@ -149,13 +156,13 @@ const Option: React.FC<OptionProps> = ({
 
 const TitleSection: React.FC<TitleSectionProps> = ({ open }) => {
   return (
-    <div className="mb-3 border-b border-slate-300 pb-3">
+    <div className="md:mb-3 md:border-b border-slate-300 md:pb-3">
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
         <div className="flex items-center gap-2">
           <img
             src={user.image}
             alt="profile picture"
-            className="grid size-10 shrink-0 place-content-center rounded-md"
+            className="grid size-10 shrink-0 place-content-center rounded-full border border-black"
           />
           {open && (
             <motion.div
@@ -163,6 +170,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({ open }) => {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.125 }}
+              className="hidden sm:block"
             >
               <span className="block text-xs font-semibold">
                 {user.first_name} {user.last_name}
@@ -171,7 +179,11 @@ const TitleSection: React.FC<TitleSectionProps> = ({ open }) => {
             </motion.div>
           )}
         </div>
-        {open && <FontAwesomeIcon icon={faChevronDown} className="mr-2" />}
+        {open && (
+          <div className="max-sm:hidden">
+            <FontAwesomeIcon icon={faChevronDown} className="mr-2" />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -182,7 +194,7 @@ const ToggleClose: React.FC<ToggleCloseProps> = ({ open, setOpen }) => {
     <motion.button
       layout
       onClick={() => setOpen((prev) => !prev)}
-      className="absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
+      className="max-sm:hidden absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
     >
       <div className="flex items-center p-2">
         <motion.div

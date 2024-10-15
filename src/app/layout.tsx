@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import '@splidejs/splide/dist/css/splide.min.css';
 import './globals.css';
 import ReactQueryProvider from '@/utils/ReactQueryProvider';
 
@@ -16,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <div id="modal"></div>
         <ReactQueryProvider>{children}</ReactQueryProvider>
       </body>
     </html>

@@ -7,8 +7,6 @@ import Sidebar from '@/components/sidebar/sidebar';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-const user = JSON.parse(localStorage.getItem('user')!);
-
 const Dashboard = () => {
   const [page, setPage] = useState('Profile');
   const router = useRouter();
@@ -29,9 +27,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen max-w-[100vw] flex items-center">
+    <div className="min-h-screen w-screen max-w-[100vw] flex max-sm:flex-col">
       <Sidebar page={page} setPage={setPage} />
-      <div className="flex-grow">{renderContent()}</div>
+      <div className="flex-grow max-w-full">{renderContent()}</div>
     </div>
   );
 };
