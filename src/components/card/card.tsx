@@ -36,7 +36,7 @@ export function Card({ event, className }: CardItem) {
         <p className="font text-gray-500 text-xs">{event.category}</p>
         <div className="mt-auto justify-self-end">
           <p className="font-semibold text-black text-sm">
-            {ddmmmmyyyy(event.date)}
+            {ddmmmmyyyy(event.start_time)}
           </p>
         </div>
       </div>

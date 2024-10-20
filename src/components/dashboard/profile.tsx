@@ -4,10 +4,13 @@ import { useState } from 'react';
 import Button from '../button/button';
 import Input from '../input/input';
 import PaymentMethodModal from '../modal/payment_method';
+import { User } from '@/models/user';
 
-const user = JSON.parse(localStorage.getItem('user')!);
+interface ProfileProps {
+  user: User;
+}
 
-const Profile = () => {
+const Profile = ({ user }: ProfileProps) => {
   const [firstName, setFirstName] = useState(user.first_name);
   const [lastName, setLastName] = useState(user.last_name);
   const [email, setEmail] = useState(user.email);

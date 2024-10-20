@@ -14,10 +14,46 @@ import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const getEvents = async (id: String): Promise<Event> => {
+const getEvents = async (id: string): Promise<Event> => {
   const res = await api.get(`/events/${id}`);
+  return res.data.data;
+};
+
+const addWishlist = async (
+  user_id: string,
+  event_id: string,
+  token: string
+) => {
+  const res = await api.post(
+    `/users/${user_id}/wishlist`,
+    { event_id },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return res;
+};
+
+const removeWishlist = async (
+  user_id: string,
+  event_id: string,
+  token: string
+) => {
+  const res = await api.delete(`/users/${user_id}/wishlist`, {
+    data: { event_id },
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res;
+};
+
+const getUser = async (user_id: string) => {
+  const res = await api.get(`/users/${user_id}`);
   return res.data.data;
 };
 
@@ -25,12 +61,30 @@ export default function EventDetail() {
   const [bookmark, setBookmark] = useState(false);
   const router = useRouter();
   const { id } = useParams();
+  const user_id =
+    typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem('user') || '{}').id
+      : null;
+  const token =
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   const { data, error, isLoading } = useQuery<Event, Error>(
     ['event', id],
     () => getEvents(id as string),
     { enabled: !!id }
   );
+
+  useEffect(() => {
+    const fetchUserWishlist = async () => {
+      if (user_id) {
+        const user = await getUser(user_id);
+        if (user.wishlist.includes(id)) {
+          setBookmark(true);
+        }
+      }
+    };
+    fetchUserWishlist();
+  }, [id, user_id]);
 
   if (isLoading) {
     return (
@@ -46,7 +100,15 @@ export default function EventDetail() {
     return <div>Error fetching data</div>;
   }
 
-  const handleBookmark = () => {
+  const handleBookmark = async () => {
+    if (!user_id) return;
+
+    if (bookmark) {
+      await removeWishlist(user_id, id as string, token!);
+    } else {
+      await addWishlist(user_id, id as string, token!);
+    }
+
     setBookmark(!bookmark);
   };
 
@@ -99,7 +161,7 @@ export default function EventDetail() {
                 <div className="w-full grid grid-cols-3">
                   {data?.details?.speakers?.map((speaker, index) => {
                     return (
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center" key={index}>
                         <img
                           src="/images/girlpp.png"
                           alt="speaker"
@@ -140,13 +202,13 @@ export default function EventDetail() {
                 <div className="flex gap-3 items-center">
                   <img src="/images/time.png" alt="icon" className="w-8 h-8" />
                   <p className="text-black font-medium text-md">
-                    {format(data?.date!, 'HH:mm O')}
+                    {format(data?.start_time!, 'HH:mm O')}
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
                   <img src="/images/date.png" alt="icon" className="w-8 h-8" />
                   <p className="text-black font-medium text-md">
-                    {ddmmmmyyyy(data?.date!)}
+                    {ddmmmmyyyy(data?.start_time!)}
                   </p>
                 </div>
               </div>
@@ -158,7 +220,7 @@ export default function EventDetail() {
             >
               <Button
                 onClick={() => {
-                  router.push('/events');
+                  router.push(`/checkout?event_id=${data?._id}`);
                 }}
                 children="Join Now"
                 className="w-full"

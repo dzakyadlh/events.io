@@ -1,0 +1,13 @@
+import { Event } from './event';
+
+export interface User {
+  _id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  image: string;
+  is_host: boolean;
+  is_admin: boolean;
+  wishlist: Event[];
+  registered_events: Event[];
+}

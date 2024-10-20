@@ -35,39 +35,6 @@ export default function Home() {
     return <div>Error fetching data</div>;
   }
 
-  const slides = [
-    {
-      src: './images/design_seminar.png',
-      title: 'Start Design Sprint',
-      date: 'Jakarta, 20 Mei 2022',
-      joined: '120K joined',
-    },
-    {
-      src: './images/public_speaking.jpg',
-      title: 'Public Speaking Seminar',
-      date: 'Bandung, 10 Aug 2022',
-      joined: '80K joined',
-    },
-    {
-      src: './images/team_management.jpg',
-      title: 'Team Management Training',
-      date: 'Surabaya, 5 Sep 2022',
-      joined: '90K joined',
-    },
-    {
-      src: './images/public_speaking.jpg',
-      title: 'Public Speaking Seminar',
-      date: 'Bandung, 10 Aug 2022',
-      joined: '80K joined',
-    },
-    {
-      src: './images/team_management.jpg',
-      title: 'Team Management Training',
-      date: 'Surabaya, 5 Sep 2022',
-      joined: '90K joined',
-    },
-  ];
-
   return (
     <div className="min-h-full w-screen max-w-[100vw] bg-white">
       <Navbar />

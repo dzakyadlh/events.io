@@ -1,4 +1,5 @@
 import { format } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 
 export function ddmmmmyyyy(date: Date) {
   const formattedDate = format(date, 'dd MMMM yyyy');
@@ -6,6 +7,12 @@ export function ddmmmmyyyy(date: Date) {
 }
 
 export function dateToHour(date: Date) {
-  const hour = format(date, 'HH');
-  return hour;
+  const formattedHour = format(date, 'hh:mm');
+  return formattedHour;
+}
+
+export function hourWithTimezone(date: Date, timeZone: string) {
+  const formattedHour = formatInTimeZone(date, timeZone, 'hh:mm a');
+  const utcOffset = formatInTimeZone(date, timeZone, 'XXX'); // gets the UTC offset
+  return `${formattedHour} UTC${utcOffset}`;
 }

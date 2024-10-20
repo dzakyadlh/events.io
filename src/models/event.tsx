@@ -1,15 +1,18 @@
 export interface Event {
   _id: string;
   title: string;
-  date: Date;
+  start_time: Date;
+  end_time: Date;
   location: string;
   poster: string;
   quota: number;
   event_type: string;
   price: number;
-  host: string;
   category: string;
   details: EventDetail;
+  host: string;
+  registered_users: string[];
+  slug: string;
 }
 
 interface EventDetail {

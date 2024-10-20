@@ -5,11 +5,13 @@ import Link from 'next/link';
 import Button from '../button/button';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence, color } from 'framer-motion';
+import { ClipLoader } from 'react-spinners';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [openAccordion, setOpenAccordion] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -32,9 +34,11 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
+    setLoading(true);
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     router.push('/');
+    setLoading(false);
   };
 
   const dropdownVariants = {
@@ -60,8 +64,8 @@ export default function Navbar() {
   return (
     <nav className="fixed w-screen md:px-10 px-5 py-5 z-50 box-border">
       <motion.div
-        initial={{ width: 0 }}
-        animate={{ width: '100%' }}
+        initial={{ y: '-100vh' }}
+        animate={{ y: 0 }}
         transition={{ duration: 1 }}
         className="bg-indigo-900 w-full mx-auto px-4 sm:px-6 lg:px-8 rounded-md border-2 border-black shadow-custom-black"
       >
@@ -316,23 +320,24 @@ export default function Navbar() {
                       onClick={() => {
                         router.push('/dashboard');
                       }}
-                      children={
-                        <div className="flex gap-2">
-                          <img
-                            src={user.image}
-                            alt="profile picture"
-                            className="w-5 h-5"
-                          />
-                          <p>Dashboard</p>
-                        </div>
-                      }
+                      children={'Dashboard'}
                     />
                   </div>
                   <div className="ml-auto flex items-baseline justify-self-end space-x-4">
                     <Button
                       onClick={handleLogout}
-                      children="Logout"
-                      className="bg-pink-500"
+                      children={
+                        loading ? (
+                          <ClipLoader
+                            color="#ec4899"
+                            loading={true}
+                            size={24}
+                          />
+                        ) : (
+                          'Logout'
+                        )
+                      }
+                      className={loading ? 'bg-pink-200' : 'bg-pink-500'}
                     />
                   </div>
                 </div>
@@ -624,7 +629,7 @@ export default function Navbar() {
                   onClick={handleLogout}
                   className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
-                  Logout
+                  {loading ? 'Logging out...' : 'Logout'}
                 </div>
               </div>
             ) : (

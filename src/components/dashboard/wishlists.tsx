@@ -7,30 +7,25 @@ import { useQuery } from 'react-query';
 import { Card } from '../card/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSadCry, faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
+import { User } from '@/models/user';
 
-const user = JSON.parse(localStorage.getItem('user')!);
+interface WishlistsProps {
+  user: User;
+}
 
-const getWishlists = async () => {
-  const res = await api.get('/wishlists');
-  return res.data;
-};
-
-const Wishlists = () => {
+const Wishlists = ({ user }: WishlistsProps) => {
   const router = useRouter;
 
-  const { data, error, isLoading } = useQuery<Event[]>(
-    'wishlists',
-    getWishlists
-  );
+  const wishlists = user.wishlist;
 
   return (
     <main className="w-full min-h-screen p-10 gap-8 flex flex-col">
       <div>
         <h1 className="font-bold text-2xl text-black">Your Wishlists</h1>
       </div>
-      <section className="w-full flex flex-grow flex-wrap items-center justify-center gap-5">
-        {data && data?.length > 0 ? (
-          data?.map((wishlist, index) => (
+      <section className="w-full flex flex-grow flex-wrap gap-5">
+        {wishlists && wishlists?.length > 0 ? (
+          wishlists?.map((wishlist, index) => (
             <Card event={wishlist} key={index} className="w-48 h-72" />
           ))
         ) : (

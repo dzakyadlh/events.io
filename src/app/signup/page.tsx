@@ -3,9 +3,9 @@ import Button from '@/components/button/button';
 import Input from '@/components/input/input';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useMutation, UseMutationResult } from 'react-query';
-import { CircularProgress } from '@nextui-org/progress';
+import { ClipLoader } from 'react-spinners';
 
 interface User {
   first_name: string;
@@ -17,12 +17,17 @@ interface User {
 interface ApiResponse {
   message: string;
   data: {
+    id: string;
     first_name: string;
     last_name: string;
     email: string;
-    password: string;
+    image: string;
     token: string;
   };
+}
+
+interface ErrorResponse {
+  message: string;
 }
 
 const register = async (user: User): Promise<ApiResponse> => {
@@ -38,21 +43,21 @@ const SignUp = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const mutation: UseMutationResult<ApiResponse, Error, User> = useMutation(
-    register,
-    {
+  const mutation: UseMutationResult<ApiResponse, AxiosError, User> =
+    useMutation(register, {
       onSuccess: (data) => {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data));
-        router.push('/events');
+        router.push('/login');
       },
-      onError: (error: Error) => {
-        console.error('Registration failed:', error.message);
+      onError: (error: AxiosError<ErrorResponse>) => {
+        setError(error.response?.data?.message!);
       },
-    }
-  );
+    });
 
   const handleRegister = () => {
     const payload: User = {
@@ -102,35 +107,47 @@ const SignUp = () => {
             <Input value={email} setValue={setEmail} placeholder="Email" />
           </div>
           <div className="mb-5">
-            <label className="text-black font-medium text-md mb-2">
-              Password
-            </label>
+            <div className="w-full flex justify-between">
+              <label className="text-black font-medium text-md mb-2">
+                Password
+              </label>
+              <button
+                type="button"
+                className="text-gray-500"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? 'Hide' : 'Show'}
+              </button>
+            </div>
             <Input
               value={password}
               setValue={setPassword}
               placeholder="Password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
             />
           </div>
           <Button
             onClick={handleRegister}
             children={
               mutation.isLoading ? (
-                <CircularProgress
-                  color="default"
-                  aria-label="Loading..."
-                  size="md"
-                />
+                <ClipLoader color="#6366f1" loading={true} size={24} />
               ) : (
                 'Sign Up'
               )
             }
             className="mt-5 justify-center"
           />
-          {mutation.isError && (
-            <p className="text-red-500 mt-3">
-              Error: {mutation.error?.message}
-            </p>
+          <Button
+            onClick={() => {
+              router.push('/login');
+            }}
+            children="I Already Have an Account"
+            className="mt-5 justify-center shadow-none bg-slate-300"
+          />
+          {mutation.isError ? (
+            <p className="text-red-500 text-center mt-5">{error}</p>
+          ) : (
+            <div className="hidden"></div>
           )}
         </div>
       </div>

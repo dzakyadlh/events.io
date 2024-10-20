@@ -11,7 +11,7 @@ export const Footer: React.FC = () => {
           All rights reserved. Events.io 2024
         </p>
       </div>
-      <div className="max-sm:flex max-sm:justify-between">
+      <div className="flex flex-grow justify-between md:justify-around">
         <div className="flex flex-col text-white gap-4">
           <p className="font-medium">Features</p>
           <ul>

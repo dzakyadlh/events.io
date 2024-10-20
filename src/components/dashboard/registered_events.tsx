@@ -7,30 +7,34 @@ import { Card } from '../card/card';
 import { Event } from '@/models/event';
 import Button from '../button/button';
 import { useEffect, useState } from 'react';
+import { User } from '@/models/user';
 
-const user = JSON.parse(localStorage.getItem('user')!);
+interface RegisteredEventsProps {
+  user: User;
+}
 
 const getRegisteredEvents = async () => {
   const res = await api.get('/events');
   return res.data.data;
 };
 
-const RegisteredEvents = () => {
+const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
   const [ongoingEvents, setOngoingEvents] = useState<Event[]>([]);
   const [finishedEvents, setFinishedEvents] = useState<Event[]>([]);
   const router = useRouter();
 
-  const { data, error, isLoading } = useQuery<Event[]>(
-    'events',
-    getRegisteredEvents
-  );
+  const events = user.registered_events;
 
   useEffect(() => {
-    if (Array.isArray(data)) {
+    if (Array.isArray(events)) {
       // Ensure that data is an array
       const today = new Date();
-      const ongoing = data.filter((event) => new Date(event.date) >= today);
-      const finished = data.filter((event) => new Date(event.date) < today);
+      const ongoing = events.filter(
+        (event) => new Date(event.start_time) <= today
+      );
+      const finished = events.filter(
+        (event) => new Date(event.end_time) > today
+      );
 
       setOngoingEvents(ongoing);
       setFinishedEvents(finished);
@@ -39,21 +43,7 @@ const RegisteredEvents = () => {
       setOngoingEvents([]);
       setFinishedEvents([]);
     }
-  }, [data]); // Only depend on data
-
-  if (isLoading) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center">
-        <h1 className="font-bold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300 drop-shadow-lg">
-          Events.io
-        </h1>
-      </div>
-    );
-  }
-
-  if (error) {
-    return <div>Error fetching data</div>;
-  }
+  }, [events]); // Only depend on data
 
   return (
     <main className="w-full min-h-screen p-10 gap-8 flex flex-col">
