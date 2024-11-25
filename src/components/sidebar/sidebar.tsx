@@ -14,10 +14,12 @@ import {
   faCalendar,
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
+import { User } from '@/models/user';
 
 interface SidebarProps {
   page: string;
   setPage: React.Dispatch<React.SetStateAction<string>>;
+  user: User;
 }
 
 interface OptionProps {
@@ -35,12 +37,15 @@ interface ToggleCloseProps {
 }
 
 interface TitleSectionProps {
+  user: User;
   open: boolean;
 }
 
-const user = JSON.parse(localStorage.getItem('user')!);
-
-const Sidebar: React.FC<SidebarProps> = ({ page, setPage }: SidebarProps) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  page,
+  setPage,
+  user,
+}: SidebarProps) => {
   const [open, setOpen] = useState(true);
 
   return (
@@ -50,7 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ page, setPage }: SidebarProps) => {
         open ? 'w-[225px]' : 'w-fit'
       } max-sm:w-screen max-sm:h-fit max-sm:flex max-sm:gap-5 max-sm: justify-center`}
     >
-      <TitleSection open={open} />
+      <TitleSection user={user} open={open} />
 
       <div className="md:space-y-1 max-sm:flex max-sm:gap-2">
         <Option
@@ -154,7 +159,8 @@ const Option: React.FC<OptionProps> = ({
   );
 };
 
-const TitleSection: React.FC<TitleSectionProps> = ({ open }) => {
+const TitleSection: React.FC<TitleSectionProps> = ({ user, open }) => {
+  console.log(user);
   return (
     <div className="md:mb-3 md:border-b border-slate-300 md:pb-3">
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">

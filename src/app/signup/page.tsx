@@ -52,7 +52,7 @@ const SignUp = () => {
       onSuccess: (data) => {
         localStorage.setItem('token', data.data.token);
         localStorage.setItem('user', JSON.stringify(data.data));
-        router.push('/login');
+        router.push('/signin');
       },
       onError: (error: AxiosError<ErrorResponse>) => {
         setError(error.response?.data?.message!);
@@ -73,10 +73,10 @@ const SignUp = () => {
     <div className="bg-slate-900 min-h-screen w-screen flex flex-col items-center justify-center max-md:px-5 py-10">
       <div className="w-full flex max-md:flex-col justify-center items-center">
         <div className="md:w-[30%] md:m-10 flex flex-col justify-center">
-          <h1 className="font-semibold md:text-5xl text-3xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
-            Expand Your Knowledge & Skill
+          <h1 className="font-semibold md:text-5xl md:leading-normal leading-relaxed text-3xl text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+            Join Us and Be Better
           </h1>
-          <p className="mt-5 text-white font-medium md:text-xl text-md">
+          <p className="mt-2 text-white font-medium md:text-xl text-md">
             We offer a diverse range of top-notch events designed to enhance
             your skills in the technology field.
           </p>
@@ -139,7 +139,7 @@ const SignUp = () => {
           />
           <Button
             onClick={() => {
-              router.push('/login');
+              router.push('/signin');
             }}
             children="I Already Have an Account"
             className="mt-5 justify-center shadow-none bg-slate-300"

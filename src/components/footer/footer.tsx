@@ -4,10 +4,10 @@ export const Footer: React.FC = () => {
   return (
     <div className="w-screen flex max-sm:flex-col gap-5 md:gap-[10%] justify-center min-h-[20vh] bg-slate-900 p-10 pb-24 mt-10">
       <div className="flex flex-col">
-        <h1 className="font-bold text-xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
+        <h1 className="font-bold text-2xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
           Events.io
         </h1>
-        <p className="text-gray-300 font-light text-[0.6rem]">
+        <p className="text-gray-300 font-light text-[0.8rem]">
           All rights reserved. Events.io 2024
         </p>
       </div>

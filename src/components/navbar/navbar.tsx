@@ -18,13 +18,6 @@ export default function Navbar() {
   const isLoggedIn =
     typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  var user;
-  const userData =
-    typeof window !== 'undefined' ? localStorage.getItem('user') : null;
-  if (userData) {
-    user = JSON.parse(userData);
-  }
-
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -345,9 +338,9 @@ export default function Navbar() {
                 <div className="ml-auto flex items-baseline justify-self-end space-x-4">
                   <Button
                     onClick={() => {
-                      router.push('/login');
+                      router.push('/signin');
                     }}
-                    children="Login"
+                    children="Sign In"
                   />
                   <Button
                     onClick={() => {
@@ -635,10 +628,10 @@ export default function Navbar() {
             ) : (
               <div>
                 <Link
-                  href="/login"
+                  href="/signin"
                   className="text-black hover:bg-indigo-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
-                  Login
+                  Sign In
                 </Link>
                 <Link
                   href="/signup"

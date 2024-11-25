@@ -11,6 +11,8 @@ import { useQuery } from 'react-query';
 import { debounce } from 'lodash';
 import { Event } from '@/models/event';
 import { Card } from '@/components/card/card';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const getEvents = async (
   category: string,
@@ -30,6 +32,11 @@ const Events = () => {
   const router = useRouter();
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms
+      offset: 100, // offset from the viewport
+    });
+    AOS.refresh();
     const handler = debounce(() => {
       setDebouncedSearchTerm(searchTerm);
     }, 500);
@@ -62,6 +69,7 @@ const Events = () => {
     <div className="min-h-screen w-screen box-border bg-white overflow-hidden flex flex-col items-center gap-20">
       <Navbar />
       <header
+        data-aos="fade-up"
         className="w-full min-h-[20vh] bg-gradient-to-r flex flex-col items-center justify-end gap-10 pt-36 pb-20"
         style={{
           backgroundImage: 'url("./images/team_management.jpg")',
@@ -74,7 +82,10 @@ const Events = () => {
         </h1>
         <SearchBar value={searchTerm} setValue={setSearchTerm} />
       </header>
-      <main className="min-h-[60vh] w-4/5 flex flex-col gap-10">
+      <main
+        data-aos="fade-up"
+        className="min-h-[60vh] w-4/5 flex flex-col gap-10"
+      >
         <section className="w-full flex flex-wrap items-center justify-center gap-3 sm:gap-5">
           {categories.map((category, index) => {
             return (

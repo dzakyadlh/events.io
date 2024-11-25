@@ -19,7 +19,7 @@ export default function Button({ className, children, onClick }: Props) {
       aria-label="Click to perform an action"
       onClick={onClick}
       className={cn(
-        'flex px-4 py-2 text-black bg-indigo-400 border-2 border-black rounded-md shadow-custom-black hover:shadow-none transition duration-300 hover:ease-linear',
+        'flex px-4 py-2 text-black bg-violet-400 border-2 border-black rounded-md shadow-custom-black hover:shadow-none transition duration-300 hover:ease-linear',
         className
       )}
     >

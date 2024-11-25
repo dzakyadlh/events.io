@@ -1,6 +1,7 @@
 'use client';
 
 import Button from '@/components/button/button';
+import PaymentCard from '@/components/card/payment_card';
 import { ErrorFetch } from '@/components/error/error_fetch';
 import { CircularLoading } from '@/components/loading/circular_loading';
 import Navbar from '@/components/navbar/navbar';
@@ -33,8 +34,11 @@ const getEvent = async (id: string) => {
   return res.data.data;
 };
 
+const paymentMethod = ['Mastercard', 'Visa', 'Paypal'];
+
 const Checkout = () => {
-  const [payment, setPayment] = useState('');
+  const [payment, setPayment] = useState<string | null>(null);
+  const [active, setActive] = useState(false);
   const router = useRouter();
   const event_id = useSearchParams().get('event_id');
 
@@ -77,15 +81,25 @@ const Checkout = () => {
       </div>
     );
 
-  const handlePayment = () => {};
+  const handlePaymentMethod = (name: string) => {
+    setPayment(name);
+  };
+
+  const handlePayment = () => {
+    if (payment) {
+      router.push(`checkout/success`);
+    } else {
+      alert('Please select a payment method.');
+    }
+  };
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center gap-20 text-white bg-slate-900">
+    <div className="w-screen min-h-screen flex flex-col items-center gap-10 text-white bg-slate-900">
       <Navbar />
-      <header className="text-3xl font-bold text-center mt-[15%]">
+      <header className="text-3xl font-bold text-center mt-[8%]">
         Invest In Yourself Now
       </header>
-      <main className="flex flex-col gap-20 items-center justify-center">
+      <main className="flex flex-col gap-10 items-center justify-center">
         <section className="flex gap-10 items-center justify-center">
           <img
             src="/images/event1.png"
@@ -112,9 +126,22 @@ const Checkout = () => {
             <p className="font-bold text-2xl">Rp. {event?.price}</p>
           </div>
         </section>
-        <section className="flex flex-col w-2/3">
+        <section className="flex flex-col w-2/3 gap-5 items-center">
           <h2 className="text-lg">Payment Method</h2>
-          <div className="flex flex-wrap"></div>
+          <div className="flex flex-wrap gap-5 justify-center">
+            {paymentMethod.map((method, index) => {
+              return (
+                <PaymentCard
+                  key={index}
+                  name={method}
+                  balance={15000000}
+                  icon={`/images/${method}.png`}
+                  active={payment == method}
+                  onClick={() => handlePaymentMethod(method)}
+                />
+              );
+            })}
+          </div>
         </section>
         <section className="flex flex-col gap-5">
           <Button

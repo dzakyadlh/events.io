@@ -5,11 +5,12 @@ import { Card, Carousel } from '@/components/card/card';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 import api from '@/utils/api';
-import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useQuery } from 'react-query';
+import { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const getEvents = async () => {
   const res = await api.get('/events');
@@ -18,6 +19,14 @@ const getEvents = async () => {
 
 export default function Home() {
   const router = useRouter();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms
+      offset: 100, // offset from the viewport
+    });
+    AOS.refresh();
+  }, []);
 
   const { data: events, error, isLoading } = useQuery('events', getEvents);
 
@@ -39,6 +48,7 @@ export default function Home() {
     <div className="min-h-full w-screen max-w-[100vw] bg-white">
       <Navbar />
       <header
+        data-aos="fade-up"
         className="w-full h-[90vh] bg-slate-900 text-white flex flex-col items-center justify-center px-5"
         style={{
           backgroundImage: 'url("./images/team_management.jpg")',
@@ -69,7 +79,10 @@ export default function Home() {
       {/* <section className="hidden relative md:flex flex-col align-middle justify-center">
         <Carousel slides={slides} className="absolute bottom-50" />
       </section> */}
-      <section className="flex flex-col align-middle justify-center py-20 gap-10">
+      <section
+        data-aos="fade-up"
+        className="flex flex-col align-middle justify-center py-20 gap-10"
+      >
         <p className="text-gray-600 text-center font-medium mid:text-1.5xl text-sm">
           Events held and approved by top companies
         </p>
@@ -85,14 +98,76 @@ export default function Home() {
           <img src="./images/google.png" alt="apple" className="md:w-40 w-24" />
         </div>
       </section>
-      <section className="bg-slate-100 py-24 flex flex-col justify-center">
+      <section
+        data-aos="fade-up"
+        className="bg-indigo-100 flex max-sm:flex-col items-center justify-center px-10 py-20 gap-20"
+      >
+        <div className="w-full sm:w-1/4">
+          <h2 className="font-bold text-black text-4xl leading-relaxed">
+            Level Up Your Skills
+          </h2>
+          <p className="text-lg mb-4">
+            We curate a wide variety of cutting-edge seminars, webinars, and
+            workshops, all aimed at helping you!
+          </p>
+        </div>
+        <div className="w-full sm:w-1/3 flex-col">
+          <div className="w-2/3 bg-white rounded-xl p-5 border-2 border-black shadow-custom-black mb-5">
+            <h5 className="font-semibold text-xl leading-relaxed">
+              Expert-Led Contents
+            </h5>
+            <p>
+              Our events are curated and led by industry experts, ensuring you
+              gain cutting-edge insights and actionable knowledge that make a
+              real impact.
+            </p>
+          </div>
+          <div className="w-2/3 bg-white rounded-xl p-5 border-2 border-black shadow-custom-black mb-5 ml-auto">
+            <h5 className="font-semibold text-xl leading-relaxed">
+              Diverse Learning Opportunities
+            </h5>
+            <p>
+              We offer a wide array of events, from hands-on workshops to
+              thought-provoking webinars, tailored to different skill levels and
+              interests in technology.
+            </p>
+          </div>
+          <div className="w-2/3 bg-white rounded-xl p-5 border-2 border-black shadow-custom-black mb-5">
+            <h5 className="font-semibold text-xl leading-relaxed">
+              Flexible and Accessible
+            </h5>
+            <p>
+              With both virtual and in-person events, we bring learning to your
+              doorstep, so you can enhance your skills from anywhere at any
+              time.
+            </p>
+          </div>
+          <div className="w-2/3 bg-white rounded-xl p-5 border-2 border-black shadow-custom-black ml-auto">
+            <h5 className="font-semibold text-xl leading-relaxed">
+              Community-Focused
+            </h5>
+            <p>
+              At Events.io, we believe in growing together. Our platform is
+              designed to build a supportive, engaged community of learners and
+              professionals driven to succeed.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section
+        data-aos="fade-up"
+        className="bg-slate-100 py-24 flex flex-col justify-center"
+      >
         <div className="mx-10">
           <p className="font-semibold text-xl mb-4">Grow Today</p>
           <h2 className="font-bold text-black text-3xl">Featured Events</h2>
         </div>
         <Carousel cardItems={events.data || []} />
       </section>
-      <section className="bg-white py-24 flex max-md:flex-col align-middle justify-center max-md:items-center gap-10">
+      <section
+        data-aos="fade-up"
+        className="bg-white py-24 flex max-md:flex-col align-middle justify-center max-md:items-center gap-10"
+      >
         <div className="relative">
           <img
             src="./images/girl.png"
@@ -141,7 +216,10 @@ export default function Home() {
           />
         </div>
       </section>
-      <section className="md:w-[40vw] bg-white md:py-24 pb-24 flex flex-wrap align-middle justify-center mx-auto md:gap-10 gap-5 px-5">
+      <section
+        data-aos="fade-up"
+        className="md:w-[40vw] bg-white md:py-24 pb-24 flex flex-wrap align-middle justify-center mx-auto md:gap-10 gap-5 px-5"
+      >
         <div className="flex flex-col">
           <p className="font-semibold text-black text-3xl leading-relaxed text-center">
             190K+

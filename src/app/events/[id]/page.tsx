@@ -15,6 +15,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShareSquare } from '@fortawesome/free-regular-svg-icons';
 import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const getEvents = async (id: string): Promise<Event> => {
   const res = await api.get(`/events/${id}`);
@@ -62,9 +64,7 @@ export default function EventDetail() {
   const router = useRouter();
   const { id } = useParams();
   const user_id =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('user') || '{}').id
-      : null;
+    typeof window !== 'undefined' ? localStorage.getItem('user_id') : null;
   const token =
     typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
@@ -75,6 +75,11 @@ export default function EventDetail() {
   );
 
   useEffect(() => {
+    AOS.init({
+      duration: 1000, // animation duration in ms
+      offset: 100, // offset from the viewport
+    });
+    AOS.refresh();
     const fetchUserWishlist = async () => {
       if (user_id) {
         const user = await getUser(user_id);
@@ -115,7 +120,10 @@ export default function EventDetail() {
   return (
     <div className="min-h-screen w-screen box-border bg-white overflow-hidden">
       <Navbar />
-      <header className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 gap-10 py-40 px-5">
+      <header
+        data-aos="fade-up"
+        className="w-full min-h-screen flex flex-col items-center justify-center bg-slate-900 gap-10 py-40 px-5"
+      >
         <motion.img
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
