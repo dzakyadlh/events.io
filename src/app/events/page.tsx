@@ -1,29 +1,17 @@
 'use client';
 
-import Button from '@/components/button/button';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 import { SearchBar } from '@/components/searchbar/searchbar';
-import api from '@/utils/api';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import { debounce } from 'lodash';
 import { Event } from '@/models/event';
 import { Card } from '@/components/card/card';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-const getEvents = async (
-  category: string,
-  searchTerm: string
-): Promise<Event[]> => {
-  const params = new URLSearchParams();
-  if (category) params.append('category', category);
-  if (searchTerm) params.append('searchTerm', searchTerm);
-  const res = await api.get(`events?${params.toString()}`);
-  return res.data.data;
-};
+import { useEvents } from '@/hooks/useEvents';
+import LoadingScreen from '@/components/loading/loading_screen';
 
 const Events = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -48,12 +36,18 @@ const Events = () => {
     };
   }, [searchTerm]);
 
-  const { data, error, isLoading } = useQuery<Event[], Error>(
-    ['events', category, debouncedSearchTerm],
-    () => getEvents(category, debouncedSearchTerm)
-  );
+  const {
+    data: events,
+    isLoading,
+    error,
+  } = useEvents(category, debouncedSearchTerm);
+
+  if (error) {
+    return <div>Error fetching data</div>;
+  }
 
   const categories = [
+    'All',
     'Technology',
     'Business',
     'Art',
@@ -62,11 +56,12 @@ const Events = () => {
   ];
 
   const handleCategory = (category: string) => {
+    if (category == 'All') category = '';
     setCategory(category);
   };
 
   return (
-    <div className="min-h-screen w-screen box-border bg-white overflow-hidden flex flex-col items-center gap-20">
+    <div className="min-h-screen w-full box-border bg-gray-100 overflow-hidden flex flex-col items-center gap-10">
       <Navbar />
       <header
         data-aos="fade-up"
@@ -100,9 +95,9 @@ const Events = () => {
           })}
         </section>
 
-        <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-items-center">
-          {data?.map((item, index) => {
-            return <Card key={index} event={item} className="max-lg:w-60" />;
+        <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 place-items-center">
+          {events?.map((item, index) => {
+            return <Card key={index} event={item} />;
           })}
         </section>
       </main>

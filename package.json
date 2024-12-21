@@ -17,6 +17,8 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@splidejs/splide": "^4.1.4",
+    "@tanstack/react-query": "^5.62.0",
+    "@tanstack/react-query-devtools": "^5.62.8",
     "@types/lodash": "^4.17.10",
     "@use-gesture/react": "^10.3.1",
     "again": "^0.0.1",
@@ -36,7 +38,6 @@
     "react": "^18",
     "react-dom": "^18",
     "react-loading-skeleton": "^3.5.0",
-    "react-query": "^3.39.3",
     "react-spinners": "^0.14.1",
     "tailwind-merge": "^2.5.2"
   },

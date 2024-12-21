@@ -12,7 +12,7 @@ import {
   faCreditCard,
 } from '@fortawesome/free-solid-svg-icons';
 import Input from '../input/input';
-import Button from '../button/button';
+import { CustomButton } from '../button/button';
 
 type ModalProps = {
   active: boolean;
@@ -165,7 +165,7 @@ const PaymentMethodModal: React.FC<ModalProps> = ({ active, setActive }) => {
           />
         </div>
 
-        <Button
+        <CustomButton
           onClick={handleSubmit}
           children="Submit"
           className="w-full flex justify-center"

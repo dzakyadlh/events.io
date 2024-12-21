@@ -12,9 +12,10 @@ import {
   faUser,
   faReceipt,
   faCalendar,
+  faWallet,
 } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
-import { User } from '@/models/user';
+import User from '@/models/user';
 
 interface SidebarProps {
   page: string;
@@ -51,54 +52,99 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <motion.nav
       layout
-      className={`sticky top-0 left-0 h-screen max-sm:border-b-2 md:border-r-2 border-black bg-white p-2 transition-all duration-200 ${
-        open ? 'w-[225px]' : 'w-fit'
-      } max-sm:w-screen max-sm:h-fit max-sm:flex max-sm:gap-5 max-sm: justify-center`}
+      className={`sticky top-0 left-0 h-screen max-md:border-b-2 md:border-r-2 border-black bg-white p-2 transition-all duration-200 ${
+        open ? 'md:w-1/4 xl:w-1/6' : 'w-fit'
+      } max-md:w-screen max-md:h-fit max-md:flex max-md:gap-5 max-md: justify-center`}
     >
       <TitleSection user={user} open={open} />
 
-      <div className="md:space-y-1 max-sm:flex max-sm:gap-2">
-        <Option
-          Icon={faUser}
-          title="Profile"
-          selected={page}
-          setSelected={setPage}
-          open={open}
-          notifs={0}
-        />
-        <Option
-          Icon={faCalendar}
-          title="Registered Events"
-          selected={page}
-          setSelected={setPage}
-          open={open}
-          notifs={3}
-        />
-        <Option
-          Icon={faBookmark}
-          title="Wishlists"
-          selected={page}
-          setSelected={setPage}
-          open={open}
-          notifs={0}
-        />
-        <Option
-          Icon={faReceipt}
-          title="Transactions"
-          selected={page}
-          setSelected={setPage}
-          open={open}
-          notifs={0}
-        />
-        <Option
-          Icon={faHouse}
-          title="Back to Home"
-          selected={page}
-          setSelected={setPage}
-          open={open}
-          notifs={0}
-        />
-      </div>
+      {user.is_host ? (
+        <div className="md:space-y-1 max-md:flex max-md:gap-2">
+          <Option
+            Icon={faUser}
+            title="Profile"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+          <Option
+            Icon={faCalendar}
+            title="Manage Events"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={3}
+          />
+          <Option
+            Icon={faWallet}
+            title="Wallet"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+          <Option
+            Icon={faReceipt}
+            title="Transactions"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+          <Option
+            Icon={faHouse}
+            title="Back to Home"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+        </div>
+      ) : (
+        <div className="md:space-y-1 max-md:flex max-md:gap-2">
+          <Option
+            Icon={faUser}
+            title="Profile"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+          <Option
+            Icon={faCalendar}
+            title="Registered Events"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={3}
+          />
+          <Option
+            Icon={faBookmark}
+            title="Wishlists"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+          <Option
+            Icon={faReceipt}
+            title="Transactions"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+          <Option
+            Icon={faHouse}
+            title="Back to Home"
+            selected={page}
+            setSelected={setPage}
+            open={open}
+            notifs={0}
+          />
+        </div>
+      )}
 
       <ToggleClose open={open} setOpen={setOpen} />
     </motion.nav>
@@ -117,7 +163,7 @@ const Option: React.FC<OptionProps> = ({
     <motion.button
       layout
       onClick={() => setSelected(title)}
-      className={`relative flex h-10 w-full items-center rounded-md transition-colors max-sm:p-2 ${
+      className={`relative flex h-10 w-full items-center rounded-md transition-colors max-md:p-2 ${
         selected === title
           ? 'bg-indigo-300 text-indigo-800 border-black border-2'
           : 'text-slate-500 hover:bg-slate-100'
@@ -127,7 +173,7 @@ const Option: React.FC<OptionProps> = ({
         layout
         className="grid h-full md:w-10 place-content-center text-lg"
       >
-        <FontAwesomeIcon icon={Icon} className="max-sm:text-2xl" />
+        <FontAwesomeIcon icon={Icon} className="max-md:text-2xl" />
       </motion.div>
       {open && (
         <motion.span
@@ -135,7 +181,7 @@ const Option: React.FC<OptionProps> = ({
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.125 }}
-          className="text-xs font-medium max-sm:hidden"
+          className="text-xs font-medium max-md:hidden"
         >
           {title}
         </motion.span>
@@ -165,18 +211,26 @@ const TitleSection: React.FC<TitleSectionProps> = ({ user, open }) => {
     <div className="md:mb-3 md:border-b border-slate-300 md:pb-3">
       <div className="flex cursor-pointer items-center justify-between rounded-md transition-colors hover:bg-slate-100">
         <div className="flex items-center gap-2">
-          <img
-            src={user.image}
-            alt="profile picture"
-            className="grid size-10 shrink-0 place-content-center rounded-full border border-black"
-          />
+          {user.image ? (
+            <img
+              src={user.image}
+              alt="profile picture"
+              className="grid size-10 shrink-0 place-content-center rounded-full border border-black object-cover"
+            />
+          ) : (
+            <img
+              src="./images/girl.png"
+              alt="profile picture"
+              className="grid size-10 shrink-0 place-content-center rounded-full border border-black object-cover"
+            />
+          )}
           {open && (
             <motion.div
               layout
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.125 }}
-              className="hidden sm:block"
+              className="hidden md:block"
             >
               <span className="block text-xs font-semibold">
                 {user.first_name} {user.last_name}
@@ -186,7 +240,7 @@ const TitleSection: React.FC<TitleSectionProps> = ({ user, open }) => {
           )}
         </div>
         {open && (
-          <div className="max-sm:hidden">
+          <div className="max-md:hidden">
             <FontAwesomeIcon icon={faChevronDown} className="mr-2" />
           </div>
         )}
@@ -200,7 +254,7 @@ const ToggleClose: React.FC<ToggleCloseProps> = ({ open, setOpen }) => {
     <motion.button
       layout
       onClick={() => setOpen((prev) => !prev)}
-      className="max-sm:hidden absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
+      className="max-md:hidden absolute bottom-0 left-0 right-0 border-t border-slate-300 transition-colors hover:bg-slate-100"
     >
       <div className="flex items-center p-2">
         <motion.div

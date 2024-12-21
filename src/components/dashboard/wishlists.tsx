@@ -1,13 +1,10 @@
 'use client';
 
-import { Event } from '@/models/event';
-import api from '@/utils/api';
 import { useRouter } from 'next/navigation';
-import { useQuery } from 'react-query';
 import { Card } from '../card/card';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSadCry, faFaceSadTear } from '@fortawesome/free-solid-svg-icons';
-import { User } from '@/models/user';
+import User from '@/models/user';
 
 interface WishlistsProps {
   user: User;
@@ -23,10 +20,10 @@ const Wishlists = ({ user }: WishlistsProps) => {
       <div>
         <h1 className="font-bold text-2xl text-black">Your Wishlists</h1>
       </div>
-      <section className="w-full flex flex-grow flex-wrap gap-5">
+      <section className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-5 place-items-center">
         {wishlists && wishlists?.length > 0 ? (
           wishlists?.map((wishlist, index) => (
-            <Card event={wishlist} key={index} className="w-48 h-72" />
+            <Card event={wishlist} key={index} />
           ))
         ) : (
           <div className="w-3/5 h-full flex flex-col">

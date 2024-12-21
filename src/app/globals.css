@@ -7,25 +7,31 @@
   --foreground: #171717;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 * {
   box-sizing: border-box;
 }
 
 body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
   color: var(--foreground);
   background: var(--background);
   font-family: Poppins, system-ui, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }

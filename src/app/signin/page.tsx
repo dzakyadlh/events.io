@@ -1,65 +1,31 @@
 'use client';
-import Button from '@/components/button/button';
+import { CustomButton } from '@/components/button/button';
 import Input from '@/components/input/input';
+import { useSignIn } from '@/hooks/useAuth';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios, { AxiosError, AxiosResponse } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useMutation, UseMutationResult } from 'react-query';
 import { ClipLoader } from 'react-spinners';
-
-interface User {
-  email: string;
-  password: string;
-}
-
-interface ApiResponse {
-  message: string;
-  data: {
-    id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    image: string;
-    token: string;
-  };
-}
-
-interface ErrorResponse {
-  message: string;
-}
-
-const login = async (user: User): Promise<ApiResponse> => {
-  const response: AxiosResponse<ApiResponse> = await axios.post(
-    'http://localhost:5000/auth/login',
-    user
-  );
-  return response.data;
-};
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
-  const mutation: UseMutationResult<ApiResponse, AxiosError, User> =
-    useMutation(login, {
-      onSuccess: (data) => {
-        localStorage.setItem('token', data.data.token);
-        localStorage.setItem('user_id', data.data.id);
-        router.push('/events');
-      },
-      onError: (error: AxiosError<ErrorResponse>) => {
-        setError(error.response?.data?.message!);
-      },
-    });
+  const { mutate: signIn, isPending, isError, error } = useSignIn();
 
-  const handleLogin = () => {
-    const payload = { email, password };
-    mutation.mutate(payload);
+  const handleLogin = async () => {
+    signIn(
+      { email, password },
+      {
+        onSuccess: (data) => {
+          router.push('/dashboard');
+        },
+        onError: (error) => {},
+      }
+    );
   };
 
   return (
@@ -91,10 +57,10 @@ const Login = () => {
               minLength={8}
             />
           </div>
-          <Button
+          <CustomButton
             onClick={handleLogin}
             children={
-              mutation.isLoading ? (
+              isPending ? (
                 <ClipLoader color="#6366f1" loading={true} size={24} />
               ) : (
                 'Login'
@@ -102,17 +68,15 @@ const Login = () => {
             }
             className="mt-5 justify-center"
           />
-          <Button
+          <CustomButton
             onClick={() => {
               router.push('/signup');
             }}
             children="Create an Account"
             className="mt-5 justify-center shadow-none bg-slate-300"
           />
-          {mutation.isError ? (
-            <p className="text-red-500 text-center mt-5">{error}</p>
-          ) : (
-            <div className="hidden"></div>
+          {isError && (
+            <p className="text-red-500 text-center mt-5">{error?.message}</p>
           )}
         </div>
       </div>

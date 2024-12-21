@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import Button from '../button/button';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence, color } from 'framer-motion';
 import { ClipLoader } from 'react-spinners';
+import { CustomButton } from '../button/button';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +16,9 @@ export default function Navbar() {
   const router = useRouter();
 
   const isLoggedIn =
-    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+    typeof window !== 'undefined'
+      ? JSON.parse(localStorage.getItem('events.io_user')!)['id']
+      : null;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -55,7 +57,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="fixed w-screen md:px-10 px-5 py-5 z-50 box-border">
+    <nav className="fixed w-full md:px-10 px-5 py-5 z-50 box-border">
       <motion.div
         initial={{ y: '-100vh' }}
         animate={{ y: 0 }}
@@ -309,7 +311,7 @@ export default function Navbar() {
               {isLoggedIn ? (
                 <div className="ml-auto flex items-center justify-self-end space-x-4">
                   <div className="ml-auto flex items-baseline justify-self-end space-x-4">
-                    <Button
+                    <CustomButton
                       onClick={() => {
                         router.push('/dashboard');
                       }}
@@ -317,7 +319,7 @@ export default function Navbar() {
                     />
                   </div>
                   <div className="ml-auto flex items-baseline justify-self-end space-x-4">
-                    <Button
+                    <CustomButton
                       onClick={handleLogout}
                       children={
                         loading ? (
@@ -336,13 +338,13 @@ export default function Navbar() {
                 </div>
               ) : (
                 <div className="ml-auto flex items-baseline justify-self-end space-x-4">
-                  <Button
+                  <CustomButton
                     onClick={() => {
                       router.push('/signin');
                     }}
                     children="Sign In"
                   />
-                  <Button
+                  <CustomButton
                     onClick={() => {
                       router.push('/signup');
                     }}

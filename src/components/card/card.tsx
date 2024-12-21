@@ -10,17 +10,12 @@ type CardItem = {
   className?: ClassValue;
 };
 
-interface CardItems {
-  cardItems: Event[];
-  className?: ClassValue;
-}
-
 export function Card({ event, className }: CardItem) {
   return (
     <Link
       href={`/events/${encodeURIComponent(event._id)}`}
       className={cn(
-        'flex-shrink-0 w-full md:w-80 bg-indigo-300 h-24 md:h-96 rounded-md flex md:flex-col border-2 border-black shadow-custom-black',
+        'bg-white flex-shrink-0 w-full h-[10vh] sm:h-80 rounded-md flex sm:flex-col border-2 border-black shadow-custom-black hover:bg-indigo-300 hover:shadow-none transition duration-300',
         className
       )}
     >
@@ -29,13 +24,15 @@ export function Card({ event, className }: CardItem) {
         alt={event.title}
         className="h-full md:h-3/5 rounded-t-md object-cover border-b-2 border-black"
       />
-      <div className="h-full flex flex-col p-4 gap-2">
-        <h5 className="font-semibold text-black text-md text-wrap">
+      <div className="h-full flex flex-col p-2 gap-1 sm:gap-2">
+        <h5 className="font-semibold text-black text-wrap text-sm sm:text-base">
           {event.title}
         </h5>
-        <p className="font text-gray-500 text-xs">{event.category}</p>
+        <p className="font text-gray-500 text-xs max-sm:hidden">
+          {event.category}
+        </p>
         <div className="mt-auto justify-self-end">
-          <p className="font-semibold text-black text-sm">
+          <p className="font-medium text-black text-xs">
             {ddmmmmyyyy(event.start_time)}
           </p>
         </div>
@@ -43,25 +40,3 @@ export function Card({ event, className }: CardItem) {
     </Link>
   );
 }
-
-export const Carousel: React.FC<CardItems> = ({
-  cardItems,
-  className,
-}: CardItems) => {
-  return (
-    <section className={cn('relative flex overflow-x-hidden', className)}>
-      <div className={`gap-x-4 flex animate-marquee whitespace-nowrap py-12`}>
-        {cardItems.map((item, index) => (
-          <Card key={index} event={item} />
-        ))}
-      </div>
-      <div
-        className={`absolute top-0 gap-x-4 pl-4 flex animate-marquee2 whitespace-nowrap py-12`}
-      >
-        {cardItems.map((item, index) => (
-          <Card key={index} event={item} />
-        ))}
-      </div>
-    </section>
-  );
-};

@@ -1,22 +1,15 @@
 'use client';
 
-import api from '@/utils/api';
 import { useRouter } from 'next/navigation';
-import { useQuery } from 'react-query';
 import { Card } from '../card/card';
 import { Event } from '@/models/event';
-import Button from '../button/button';
 import { useEffect, useState } from 'react';
-import { User } from '@/models/user';
+import User from '@/models/user';
+import { CustomSecondaryButton } from '../button/button';
 
 interface RegisteredEventsProps {
   user: User;
 }
-
-const getRegisteredEvents = async () => {
-  const res = await api.get('/events');
-  return res.data.data;
-};
 
 const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
   const [ongoingEvents, setOngoingEvents] = useState<Event[]>([]);
@@ -65,7 +58,7 @@ const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
               <p className="mb-5">
                 You have no ongoing events. Go back to events page to find some!
               </p>
-              <Button
+              <CustomSecondaryButton
                 onClick={() => {
                   router.push('/events');
                 }}

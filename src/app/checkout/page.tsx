@@ -1,12 +1,12 @@
 'use client';
 
-import Button from '@/components/button/button';
+import { CustomButton } from '@/components/button/button';
 import PaymentCard from '@/components/card/payment_card';
 import { ErrorFetch } from '@/components/error/error_fetch';
 import { CircularLoading } from '@/components/loading/circular_loading';
 import Navbar from '@/components/navbar/navbar';
 import { Event } from '@/models/event';
-import { User } from '@/models/user';
+import User from '@/models/user';
 import api from '@/utils/api';
 import {
   dateToHour,
@@ -22,7 +22,6 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { useQueries, useQuery } from 'react-query';
 
 const getUser = async (id: string) => {
   const res = await api.get(`/user/${id}`);
@@ -144,7 +143,7 @@ const Checkout = () => {
           </div>
         </section>
         <section className="flex flex-col gap-5">
-          <Button
+          <CustomButton
             onClick={handlePayment}
             children="Pay Now"
             className="justify-center"

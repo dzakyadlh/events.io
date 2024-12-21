@@ -1,21 +1,16 @@
 'use client';
 
-import Button from '@/components/button/button';
-import { Card, Carousel } from '@/components/card/card';
+import { CustomButton } from '@/components/button/button';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
-import api from '@/utils/api';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useQuery } from 'react-query';
 import { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-const getEvents = async () => {
-  const res = await api.get('/events');
-  return res.data; // Ensure to return the data from the response
-};
+import { useEvents } from '@/hooks/useEvents';
+import LoadingScreen from '@/components/loading/loading_screen';
+import { Carousel } from '@/components/carousel/events_carousel';
 
 export default function Home() {
   const router = useRouter();
@@ -28,16 +23,10 @@ export default function Home() {
     AOS.refresh();
   }, []);
 
-  const { data: events, error, isLoading } = useQuery('events', getEvents);
+  const { data: events, isLoading, error } = useEvents();
 
   if (isLoading) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center">
-        <h1 className="font-bold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300 drop-shadow-lg">
-          Events.io
-        </h1>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {
@@ -45,7 +34,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-full w-screen max-w-[100vw] bg-white">
+    <div className="min-h-screen w-full bg-white">
       <Navbar />
       <header
         data-aos="fade-up"
@@ -67,14 +56,14 @@ export default function Home() {
           <br className="md:block hidden"></br>
           enhance your skills in the technology field.
         </p>
-        <Button
+        <CustomButton
           className="mt-10 px-10"
           onClick={() => {
             router.push('/events');
           }}
         >
           Browse Now
-        </Button>
+        </CustomButton>
       </header>
       {/* <section className="hidden relative md:flex flex-col align-middle justify-center">
         <Carousel slides={slides} className="absolute bottom-50" />
@@ -162,7 +151,7 @@ export default function Home() {
           <p className="font-semibold text-xl mb-4">Grow Today</p>
           <h2 className="font-bold text-black text-3xl">Featured Events</h2>
         </div>
-        <Carousel cardItems={events.data || []} />
+        <Carousel cardItems={events || []} />
       </section>
       <section
         data-aos="fade-up"
@@ -208,7 +197,7 @@ export default function Home() {
             Read story about how Shayna managed to create a startup that helped
             more than 100,000 people to receive supplies during pandemic
           </p>
-          <Button
+          <CustomButton
             onClick={() => {
               router.push('/events');
             }}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import ReactQueryProvider from '@/utils/ReactQueryProvider';
+import ReactQueryProvider from '@/lib/ReactQueryProvider';
 
 export const metadata: Metadata = {
   title: 'Events.io',

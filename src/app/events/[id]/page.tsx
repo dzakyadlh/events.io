@@ -1,15 +1,11 @@
 'use client';
 
-import Button from '@/components/button/button';
 import Dropdown from '@/components/dropdown/dropdown';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
-import { Event } from '@/models/event';
-import api from '@/utils/api';
 import { ddmmmmyyyy } from '@/utils/date_formatter';
 import { format } from 'date-fns';
 import { useRouter, useParams } from 'next/navigation';
-import { useQuery } from 'react-query';
 import { motion } from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookmark, faShareSquare } from '@fortawesome/free-regular-svg-icons';
@@ -17,47 +13,10 @@ import { faBookmark as faBookmarkSolid } from '@fortawesome/free-solid-svg-icons
 import { useEffect, useState } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-
-const getEvents = async (id: string): Promise<Event> => {
-  const res = await api.get(`/events/${id}`);
-  return res.data.data;
-};
-
-const addWishlist = async (
-  user_id: string,
-  event_id: string,
-  token: string
-) => {
-  const res = await api.post(
-    `/users/${user_id}/wishlist`,
-    { event_id },
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  );
-  return res;
-};
-
-const removeWishlist = async (
-  user_id: string,
-  event_id: string,
-  token: string
-) => {
-  const res = await api.delete(`/users/${user_id}/wishlist`, {
-    data: { event_id },
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return res;
-};
-
-const getUser = async (user_id: string) => {
-  const res = await api.get(`/users/${user_id}`);
-  return res.data.data;
-};
+import { useEvent } from '@/hooks/useEvent';
+import LoadingScreen from '@/components/loading/loading_screen';
+import { useAddWishlist, useRemoveWishlist } from '@/hooks/useWishlist';
+import { CustomButton } from '@/components/button/button';
 
 export default function EventDetail() {
   const [bookmark, setBookmark] = useState(false);
@@ -68,11 +27,7 @@ export default function EventDetail() {
   const token =
     typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  const { data, error, isLoading } = useQuery<Event, Error>(
-    ['event', id],
-    () => getEvents(id as string),
-    { enabled: !!id }
-  );
+  const { data: event, error, isLoading } = useEvent(id.toString());
 
   useEffect(() => {
     AOS.init({
@@ -80,25 +35,19 @@ export default function EventDetail() {
       offset: 100, // offset from the viewport
     });
     AOS.refresh();
-    const fetchUserWishlist = async () => {
-      if (user_id) {
-        const user = await getUser(user_id);
-        if (user.wishlist.includes(id)) {
-          setBookmark(true);
-        }
-      }
-    };
-    fetchUserWishlist();
+    // const fetchUserWishlist = async () => {
+    //   if (user_id) {
+    //     const user = await getUser(user_id);
+    //     if (user.wishlist.includes(id)) {
+    //       setBookmark(true);
+    //     }
+    //   }
+    // };
+    // fetchUserWishlist();
   }, [id, user_id]);
 
   if (isLoading) {
-    return (
-      <div className="w-screen h-screen flex items-center justify-center">
-        <h1 className="font-bold text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300 drop-shadow-lg">
-          Events.io
-        </h1>
-      </div>
-    );
+    return <LoadingScreen />;
   }
 
   if (error) {
@@ -109,16 +58,16 @@ export default function EventDetail() {
     if (!user_id) return;
 
     if (bookmark) {
-      await removeWishlist(user_id, id as string, token!);
+      await useRemoveWishlist(user_id, id as string, token!);
     } else {
-      await addWishlist(user_id, id as string, token!);
+      await useAddWishlist(user_id, id as string, token!);
     }
 
     setBookmark(!bookmark);
   };
 
   return (
-    <div className="min-h-screen w-screen box-border bg-white overflow-hidden">
+    <div className="min-h-screen w-full box-border bg-white overflow-hidden">
       <Navbar />
       <header
         data-aos="fade-up"
@@ -140,7 +89,7 @@ export default function EventDetail() {
             className="md:w-[60%]"
           >
             <h1 className="font-semibold text-4xl md:text-5xl leading-relaxed text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-yellow-300">
-              {data?.title}
+              {event?.title}
             </h1>
           </motion.div>
 
@@ -167,7 +116,7 @@ export default function EventDetail() {
             <div className="flex gap-3">
               <div className="w-full flex flex-col">
                 <div className="w-full grid grid-cols-3">
-                  {data?.details?.speakers?.map((speaker, index) => {
+                  {event?.details?.speakers?.map((speaker, index) => {
                     return (
                       <div className="flex flex-col items-center" key={index}>
                         <img
@@ -204,19 +153,19 @@ export default function EventDetail() {
                     className="w-8 h-8"
                   />
                   <p className="text-black font-medium text-md">
-                    {data?.location}
+                    {event?.location}
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
                   <img src="/images/time.png" alt="icon" className="w-8 h-8" />
                   <p className="text-black font-medium text-md">
-                    {format(data?.start_time!, 'HH:mm O')}
+                    {format(event?.start_time!, 'HH:mm O')}
                   </p>
                 </div>
                 <div className="flex gap-3 items-center">
                   <img src="/images/date.png" alt="icon" className="w-8 h-8" />
                   <p className="text-black font-medium text-md">
-                    {ddmmmmyyyy(data?.start_time!)}
+                    {ddmmmmyyyy(event?.start_time!)}
                   </p>
                 </div>
               </div>
@@ -226,9 +175,9 @@ export default function EventDetail() {
               animate={{ scale: 1 }}
               transition={{ type: 'spring', damping: 0, mass: 10 }}
             >
-              <Button
+              <CustomButton
                 onClick={() => {
-                  router.push(`/checkout?event_id=${data?._id}`);
+                  router.push(`/checkout?event_id=${event?._id}`);
                 }}
                 children="Join Now"
                 className="w-full"
@@ -245,7 +194,7 @@ export default function EventDetail() {
         >
           <h5 className="font-semibold text-2xl mb-6">Event Details</h5>
           <p className="text-black leading-loose">
-            {data?.details.description}
+            {event?.details.description}
           </p>
         </motion.div>
         <motion.div
@@ -255,7 +204,7 @@ export default function EventDetail() {
         >
           <h5 className="font-semibold text-2xl mb-6">Keypoints</h5>
           <ul>
-            {data?.details?.keypoints?.map((keypoint, index) => {
+            {event?.details?.keypoints?.map((keypoint, index) => {
               return (
                 <li key={index} className="flex items-start gap-4 mb-4">
                   <img
@@ -276,7 +225,7 @@ export default function EventDetail() {
         >
           <h5 className="font-semibold text-2xl mb-6">Requirements</h5>
           <ul>
-            {data?.details?.requirements?.map((requirement, index) => {
+            {event?.details?.requirements?.map((requirement, index) => {
               return (
                 <li key={index} className="flex items-start gap-4 mb-4">
                   <img
@@ -297,7 +246,7 @@ export default function EventDetail() {
         >
           <h5 className="font-semibold text-2xl mb-6">Agenda</h5>
           <ul className="flex gap-4 items-start max-sm:overflow-x-scroll">
-            {data?.details?.agenda?.map((agenda, index) => {
+            {event?.details?.agenda?.map((agenda, index) => {
               return (
                 <motion.li
                   initial={{ scale: 0 }}
@@ -327,7 +276,7 @@ export default function EventDetail() {
             Frequently Asked Questions
           </h5>
           <ul>
-            {data?.details?.faq?.map((faq, index) => {
+            {event?.details?.faq?.map((faq, index) => {
               return (
                 <motion.li
                   key={index}
