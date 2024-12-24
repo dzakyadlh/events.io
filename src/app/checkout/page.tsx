@@ -5,6 +5,8 @@ import PaymentCard from '@/components/card/payment_card';
 import { ErrorFetch } from '@/components/error/error_fetch';
 import { CircularLoading } from '@/components/loading/circular_loading';
 import Navbar from '@/components/navbar/navbar';
+import { useEvent } from '@/hooks/useEvent';
+import { useUser } from '@/hooks/useUser';
 import { Event } from '@/models/event';
 import User from '@/models/user';
 import api from '@/utils/api';
@@ -41,30 +43,12 @@ const Checkout = () => {
   const router = useRouter();
   const event_id = useSearchParams().get('event_id');
 
-  const user_id =
-    typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('user') || '{}').id
-      : null;
-
-  const {
-    data: user,
-    error: userError,
-    isLoading: userLoading,
-  } = useQuery<User, Error>(
-    ['user', user_id],
-    () => getUser(user_id as string),
-    { enabled: !!user_id }
-  );
-
   const {
     data: event,
     error: eventError,
     isLoading: eventLoading,
-  } = useQuery<Event, Error>(
-    ['event', event_id],
-    () => getEvent(event_id as string),
-    { enabled: !!event_id }
-  );
+  } = useEvent(event_id!);
+  const { data: user, error: userError, isLoading: userLoading } = useUser();
 
   if (userLoading || eventLoading)
     return (

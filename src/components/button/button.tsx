@@ -9,6 +9,7 @@ import { cn } from '@/lib/utils';
 type Props = {
   className?: ClassValue;
   children: React.ReactNode;
+  role?: string;
   onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
@@ -28,10 +29,18 @@ export function CustomButton({ className, children, onClick }: Props) {
   );
 }
 
-export function CustomSecondaryButton({ className, children, onClick }: Props) {
+export function CustomSecondaryButton({
+  className,
+  children,
+  role,
+  onClick,
+}: Props) {
+  if (!role) {
+    role = 'button';
+  }
   return (
     <button
-      role="button"
+      role={role}
       aria-label="Click to perform an action"
       onClick={onClick}
       className={cn(

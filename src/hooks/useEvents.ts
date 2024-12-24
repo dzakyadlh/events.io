@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import axiosInstance from '@/api/axiosInstance';
-import { EventsResponse } from '@/api/responses/event_responses';
 import { Event } from '@/models/event';
 
 const fetchEvents = async (
@@ -14,7 +13,6 @@ const fetchEvents = async (
     const res = await axiosInstance.get(`/events`);
     return res.data.data;
   }
-  console.log(`/events?${params.toString()}`);
   const res = await axiosInstance.get(`/events?${params.toString()}`);
   return res.data.data;
 };
@@ -23,5 +21,25 @@ export const useEvents = (category?: string, searchTerm?: string) => {
   return useQuery({
     queryKey: ['events', category, searchTerm],
     queryFn: () => fetchEvents(category, searchTerm),
+  });
+};
+
+const fetchEventsByHost = async (host_id: string): Promise<Event[]> => {
+  const token = JSON.parse(localStorage.getItem('events.io_user')!)[
+    'token'
+  ] as string;
+  const res = await axiosInstance.get(`/events/host/${host_id}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data.data;
+};
+
+export const useHostEvents = (host_id: string) => {
+  return useQuery({
+    queryKey: ['host_events', host_id],
+    queryFn: () => fetchEventsByHost(host_id),
   });
 };

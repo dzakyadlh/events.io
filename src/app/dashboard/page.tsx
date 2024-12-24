@@ -8,21 +8,16 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import LoadingScreen from '@/components/loading/loading_screen';
 import { ErrorFetch } from '@/components/error/error_fetch';
-import { useGetUser } from '@/hooks/useUser';
+import { useUser } from '@/hooks/useUser';
+import Wallet from '../../components/dashboard/wallet';
+import ManageEvents from '@/components/dashboard/manage_events';
 
 const Dashboard = () => {
   const [page, setPage] = useState('Profile');
   const router = useRouter();
-  const [userId, setUserId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const user = localStorage.getItem('events.io_user');
-    const userId = JSON.parse(user!)['id'];
-    setUserId(userId);
-  }, []);
 
   // Fetch user data using React Query
-  const { data, isLoading, error } = useGetUser(userId!);
+  const { data, isLoading, error } = useUser();
 
   const renderContent = () => {
     if (isLoading) return <LoadingScreen />;
@@ -38,6 +33,10 @@ const Dashboard = () => {
           return <RegisteredEvents user={data} />;
         case 'Wishlists':
           return <Wishlists user={data} />;
+        case 'Manage Events':
+          return <ManageEvents user={data} />;
+        case 'Wallet':
+          return <Wallet user={data} />;
         case 'Back to Home':
           router.push('/');
           break;

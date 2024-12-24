@@ -4,8 +4,8 @@ import { cn } from '@/lib/utils';
 
 type Props = {
   className?: ClassValue;
-  value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  value: any;
+  setValue: React.Dispatch<React.SetStateAction<any>>;
   placeholder: string;
   minLength?: number;
   maxLength?: number;
@@ -22,24 +22,22 @@ export default function Input({
   type = 'text',
 }: Props) {
   return (
-    <div className="formkit-outer">
-      <input
-        className={cn(
-          'w-full rounded-lg bg-white dark:bg-darkBg border-2 box-border dark:border-darkBorder p-[10px] font-base border-black outline-none',
-          className
-        )}
-        type={type}
-        name="text"
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => {
-          setValue(e.target.value);
-        }}
-        aria-label={placeholder}
-        required
-        minLength={minLength}
-        maxLength={maxLength}
-      />
-    </div>
+    <input
+      className={cn(
+        'w-full rounded-lg bg-white dark:bg-darkBg border-2 box-border dark:border-darkBorder p-[10px] font-base border-black outline-none',
+        className
+      )}
+      type={type}
+      name="text"
+      placeholder={placeholder}
+      value={value}
+      onChange={(e) => {
+        setValue(e.target.value);
+      }}
+      aria-label={placeholder}
+      required
+      minLength={minLength}
+      maxLength={maxLength}
+    />
   );
 }

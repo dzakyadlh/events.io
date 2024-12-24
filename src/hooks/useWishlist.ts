@@ -1,13 +1,12 @@
 import axiosInstance from '@/api/axiosInstance';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
-export const useAddWishlist = async (
-  user_id: string,
-  event_id: string,
-  token: string
-) => {
+export const useAddWishlist = async (event_id: string) => {
+  const user = JSON.parse(localStorage.getItem('events.io_user')!);
+  const user_id = user['id'];
+  const token = user['token'];
   return useMutation({
-    mutationKey: ['addWishlist', user_id, event_id, token],
+    mutationKey: ['addWishlist', event_id],
     mutationFn: async () => {
       const res = await axiosInstance.post(
         `/users/${user_id}/wishlist`,
@@ -24,19 +23,13 @@ export const useAddWishlist = async (
   });
 };
 
-export const useRemoveWishlist = async (
-  user_id: string,
-  event_id: string,
-  token: string
-) => {
+export const useRemoveWishlist = async (event_id: string) => {
+  const user = JSON.parse(localStorage.getItem('events.io_user')!);
+  const user_id = user['id'];
+  const token = user['token'];
   return useMutation({
-    mutationKey: ['removeWishlist', user_id, event_id, token],
-    mutationFn: async (data: {
-      user_id: string;
-      event_id: string;
-      token: string;
-    }) => {
-      const { user_id, event_id, token } = data;
+    mutationKey: ['removeWishlist', event_id],
+    mutationFn: async () => {
       const res = await axiosInstance.delete(`/users/${user_id}/wishlist`, {
         data: { event_id },
         headers: {
@@ -45,21 +38,6 @@ export const useRemoveWishlist = async (
         },
       });
       return res.data;
-    },
-  });
-};
-
-export const getWishlist = async (user_id: string, token: string) => {
-  return useQuery({
-    queryKey: ['wishlist', user_id, token],
-    queryFn: async () => {
-      const res = await axiosInstance.get(`/users/${user_id}/wishlist`, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return res.data.data;
     },
   });
 };

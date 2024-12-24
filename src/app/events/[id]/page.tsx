@@ -1,6 +1,6 @@
 'use client';
 
-import Dropdown from '@/components/dropdown/dropdown';
+import { Dropdown } from '@/components/dropdown/dropdown';
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 import { ddmmmmyyyy } from '@/utils/date_formatter';
@@ -17,17 +17,19 @@ import { useEvent } from '@/hooks/useEvent';
 import LoadingScreen from '@/components/loading/loading_screen';
 import { useAddWishlist, useRemoveWishlist } from '@/hooks/useWishlist';
 import { CustomButton } from '@/components/button/button';
+import { useUser } from '@/hooks/useUser';
 
 export default function EventDetail() {
   const [bookmark, setBookmark] = useState(false);
   const router = useRouter();
   const { id } = useParams();
-  const user_id =
-    typeof window !== 'undefined' ? localStorage.getItem('user_id') : null;
-  const token =
-    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
-  const { data: event, error, isLoading } = useEvent(id.toString());
+  const {
+    data: event,
+    error: eventError,
+    isLoading: eventLoading,
+  } = useEvent(id.toString());
+  const { data: user, error: userError, isLoading: userLoading } = useUser();
 
   useEffect(() => {
     AOS.init({
@@ -44,27 +46,33 @@ export default function EventDetail() {
     //   }
     // };
     // fetchUserWishlist();
-  }, [id, user_id]);
+  }, []);
 
-  if (isLoading) {
+  if (eventLoading || userLoading) {
     return <LoadingScreen />;
   }
 
-  if (error) {
+  if (eventError || userError) {
     return <div>Error fetching data</div>;
   }
 
   const handleBookmark = async () => {
-    if (!user_id) return;
-
     if (bookmark) {
-      await useRemoveWishlist(user_id, id as string, token!);
+      await useRemoveWishlist(id as string);
     } else {
-      await useAddWishlist(user_id, id as string, token!);
+      await useAddWishlist(id as string);
     }
 
     setBookmark(!bookmark);
   };
+
+  if (user?.wishlist) {
+    for (var _id in user.wishlist) {
+      if (_id == id) {
+        setBookmark(true);
+      }
+    }
+  }
 
   return (
     <div className="min-h-screen w-full box-border bg-white overflow-hidden">

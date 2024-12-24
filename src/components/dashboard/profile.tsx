@@ -55,7 +55,7 @@ const Profile = ({ user }: ProfileProps) => {
       </section>
       <section>
         <h2 className="font-semibold text-lg mb-2">Profile Settings</h2>
-        <div className="bg-indigo-400 w-full p-4 border-black border-2 shadow-custom-black">
+        <form className="bg-indigo-400 w-full p-4 border-black border-2 shadow-custom-black">
           <div className="flex items-center gap-4 mb-5">
             <p className="font-semibold text-black w-1/5">First Name</p>
             <Input
@@ -89,7 +89,7 @@ const Profile = ({ user }: ProfileProps) => {
               onClick={handleProfilePicture}
             />
           </div>
-        </div>
+        </form>
       </section>
 
       <section>
