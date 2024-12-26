@@ -1,7 +1,7 @@
 'use client';
 
 import Profile from '@/components/dashboard/profile';
-import RegisteredEvents from '@/components/dashboard/registered_events';
+import RegisteredEvents from '@/components/dashboard/registered_events/registered_events';
 import Wishlists from '@/components/dashboard/wishlists';
 import Sidebar from '@/components/sidebar/sidebar';
 import { useRouter } from 'next/navigation';

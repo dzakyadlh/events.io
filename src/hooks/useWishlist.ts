@@ -1,13 +1,13 @@
 import axiosInstance from '@/api/axiosInstance';
 import { useMutation } from '@tanstack/react-query';
 
-export const useAddWishlist = async (event_id: string) => {
-  const user = JSON.parse(localStorage.getItem('events.io_user')!);
-  const user_id = user['id'];
-  const token = user['token'];
+export const useAddWishlist = () => {
   return useMutation({
-    mutationKey: ['addWishlist', event_id],
-    mutationFn: async () => {
+    mutationKey: ['addWishlist'],
+    mutationFn: async ({ event_id }: { event_id: string }) => {
+      const user = JSON.parse(localStorage.getItem('events.io_user')!);
+      const user_id = user['id'];
+      const token = user['token'];
       const res = await axiosInstance.post(
         `/users/${user_id}/wishlist`,
         { event_id: event_id },
@@ -18,18 +18,18 @@ export const useAddWishlist = async (event_id: string) => {
           },
         }
       );
-      return res.data;
+      return true;
     },
   });
 };
 
-export const useRemoveWishlist = async (event_id: string) => {
-  const user = JSON.parse(localStorage.getItem('events.io_user')!);
-  const user_id = user['id'];
-  const token = user['token'];
+export const useRemoveWishlist = () => {
   return useMutation({
-    mutationKey: ['removeWishlist', event_id],
-    mutationFn: async () => {
+    mutationKey: ['removeWishlist'],
+    mutationFn: async ({ event_id }: { event_id: string }) => {
+      const user = JSON.parse(localStorage.getItem('events.io_user')!);
+      const user_id = user['id'];
+      const token = user['token'];
       const res = await axiosInstance.delete(`/users/${user_id}/wishlist`, {
         data: { event_id },
         headers: {
@@ -37,7 +37,7 @@ export const useRemoveWishlist = async (event_id: string) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      return res.data;
+      return true;
     },
   });
 };

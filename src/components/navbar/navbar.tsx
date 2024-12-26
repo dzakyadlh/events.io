@@ -17,7 +17,7 @@ export default function Navbar() {
 
   const isLoggedIn =
     typeof window !== 'undefined'
-      ? JSON.parse(localStorage.getItem('events.io_user')!)['id']
+      ? JSON.parse(localStorage.getItem('events.io_user')!)
       : null;
 
   const toggleMenu = () => {
@@ -30,8 +30,7 @@ export default function Navbar() {
 
   const handleLogout = () => {
     setLoading(true);
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('events.io_user');
     router.push('/');
     setLoading(false);
   };

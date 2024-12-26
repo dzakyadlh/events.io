@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { numberWithCommas } from '@/utils/number_formatter';
 import { MouseEventHandler } from 'react';
 
 interface PaymentCardProps {
@@ -28,7 +29,9 @@ const PaymentCard = ({
         <img src={icon} alt="payment method icon" className="w-10" />
         <div className="flex flex-col gap-2">
           <p className="text-white text-sm">{name}</p>
-          <p className="text-white font-light text-xs">Balance: ${balance}</p>
+          <p className="text-white font-light text-xs">
+            Balance: ${numberWithCommas(balance)}
+          </p>
         </div>
       </div>
       <div className="rounded-full w-6 h-6 border-white border flex items-center justify-center">

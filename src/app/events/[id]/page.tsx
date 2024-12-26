@@ -18,11 +18,26 @@ import LoadingScreen from '@/components/loading/loading_screen';
 import { useAddWishlist, useRemoveWishlist } from '@/hooks/useWishlist';
 import { CustomButton } from '@/components/button/button';
 import { useUser } from '@/hooks/useUser';
+import InfoAlert from '@/components/alert/infoAlert';
+import ErrorAlert from '@/components/alert/errorAlert';
 
 export default function EventDetail() {
   const [bookmark, setBookmark] = useState(false);
+  const [showInfoAlert, setShowInfoAlert] = useState(false);
+  const [infoMessage, setInfoMessage] = useState('');
+  const { mutate: addWishlist, isPending: addPending } = useAddWishlist();
+  const { mutate: removeWishlist, isPending: removePending } =
+    useRemoveWishlist();
   const router = useRouter();
   const { id } = useParams();
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      offset: 100,
+    });
+    AOS.refresh();
+  }, []);
 
   const {
     data: event,
@@ -32,47 +47,66 @@ export default function EventDetail() {
   const { data: user, error: userError, isLoading: userLoading } = useUser();
 
   useEffect(() => {
-    AOS.init({
-      duration: 1000, // animation duration in ms
-      offset: 100, // offset from the viewport
-    });
-    AOS.refresh();
-    // const fetchUserWishlist = async () => {
-    //   if (user_id) {
-    //     const user = await getUser(user_id);
-    //     if (user.wishlist.includes(id)) {
-    //       setBookmark(true);
-    //     }
-    //   }
-    // };
-    // fetchUserWishlist();
-  }, []);
+    if (user?.wishlist) {
+      for (const wishlist of user.wishlist) {
+        if (wishlist._id === id) {
+          setBookmark(true);
+          break;
+        }
+      }
+    }
+  }, [user, id]);
 
   if (eventLoading || userLoading) {
     return <LoadingScreen />;
   }
 
   if (eventError || userError) {
-    return <div>Error fetching data</div>;
+    if (eventError) {
+      <ErrorAlert message={eventError?.message} />;
+    } else if (userError) {
+      <ErrorAlert message={userError?.message} />;
+    }
   }
 
   const handleBookmark = async () => {
+    if (addPending || removePending) return;
     if (bookmark) {
-      await useRemoveWishlist(id as string);
+      removeWishlist(
+        { event_id: id as string },
+        {
+          onSuccess: () => {
+            setBookmark(false);
+            setInfoMessage('Event removed from wishlist');
+            setShowInfoAlert(true);
+            setTimeout(() => {
+              setShowInfoAlert(false);
+            }, 3000);
+          },
+          onError: (error) => {
+            console.log(error);
+          },
+        }
+      );
     } else {
-      await useAddWishlist(id as string);
+      addWishlist(
+        { event_id: id as string },
+        {
+          onSuccess: () => {
+            setBookmark(true);
+            setInfoMessage('Event added to wishlist');
+            setShowInfoAlert(true);
+            setTimeout(() => {
+              setShowInfoAlert(false);
+            }, 3000);
+          },
+          onError: (error) => {
+            console.log(error);
+          },
+        }
+      );
     }
-
-    setBookmark(!bookmark);
   };
-
-  if (user?.wishlist) {
-    for (var _id in user.wishlist) {
-      if (_id == id) {
-        setBookmark(true);
-      }
-    }
-  }
 
   return (
     <div className="min-h-screen w-full box-border bg-white overflow-hidden">
@@ -110,14 +144,21 @@ export default function EventDetail() {
             <div className="flex justify-between items-center">
               <p className="text-black font-semibold text-xl">Your Speakers</p>
               <div className="flex items-center gap-5">
-                <FontAwesomeIcon icon={faShareSquare} />
+                <FontAwesomeIcon
+                  icon={faShareSquare}
+                  className="cursor-pointer"
+                />
                 {bookmark ? (
                   <FontAwesomeIcon
                     icon={faBookmarkSolid}
                     onClick={handleBookmark}
                   />
                 ) : (
-                  <FontAwesomeIcon icon={faBookmark} onClick={handleBookmark} />
+                  <FontAwesomeIcon
+                    icon={faBookmark}
+                    onClick={handleBookmark}
+                    className="cursor-pointer"
+                  />
                 )}
               </div>
             </div>
@@ -309,18 +350,8 @@ export default function EventDetail() {
             })}
           </ul>
         </motion.div>
-        {/* <div>
-          <h5 className="font-semibold text-2xl mb-6">Location on Maps</h5>
-          <div className="relative md:w-96 w-[90vw] h-56 rounded-xl overflow-clip">
-            <div className="absolute md:w-96 w-[90vw] h-56 rounded-xl bg-black opacity-35"></div>
-            <img
-              src="/images/maps.png"
-              alt="gmaps"
-              className="md:w-96 w-[90vw] object-cover"
-            />
-          </div>
-        </div> */}
       </main>
+      {showInfoAlert && <InfoAlert message={infoMessage} />}
       <Footer />
     </div>
   );

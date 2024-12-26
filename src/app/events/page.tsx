@@ -3,21 +3,18 @@
 import { Footer } from '@/components/footer/footer';
 import Navbar from '@/components/navbar/navbar';
 import { SearchBar } from '@/components/searchbar/searchbar';
-import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
-import { Event } from '@/models/event';
 import { Card } from '@/components/card/card';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useEvents } from '@/hooks/useEvents';
-import LoadingScreen from '@/components/loading/loading_screen';
+import ErrorAlert from '@/components/alert/errorAlert';
 
 const Events = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [category, setCategory] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState(searchTerm);
-  const router = useRouter();
 
   useEffect(() => {
     AOS.init({
@@ -36,14 +33,10 @@ const Events = () => {
     };
   }, [searchTerm]);
 
-  const {
-    data: events,
-    isLoading,
-    error,
-  } = useEvents(category, debouncedSearchTerm);
+  const { data: events, error } = useEvents(category, debouncedSearchTerm);
 
   if (error) {
-    return <div>Error fetching data</div>;
+    return <ErrorAlert message={error?.message} />;
   }
 
   const categories = [
