@@ -1,3 +1,5 @@
+import User from './user';
+
 export interface Event {
   _id: string;
   title: string;
@@ -10,7 +12,7 @@ export interface Event {
   price: number;
   category: string;
   details: EventDetail;
-  host: string;
+  host: User;
   registered_users: string[];
   slug: string;
 }

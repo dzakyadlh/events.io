@@ -8,7 +8,7 @@ const fetchEvents = async (
 ): Promise<Event[]> => {
   const params = new URLSearchParams();
   if (category) params.append('category', category);
-  if (searchTerm) params.append('searchTerm', searchTerm);
+  if (searchTerm) params.append('title', searchTerm);
   if (!category && !searchTerm) {
     const res = await axiosInstance.get(`/events`);
     return res.data.data;

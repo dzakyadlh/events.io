@@ -20,14 +20,14 @@ export function Card({ event, className }: CardItem) {
     <Link
       href={`/events/${encodeURIComponent(event._id)}`}
       className={cn(
-        'flex-shrink-0 w-full md:w-80 bg-indigo-300 h-24 md:h-96 rounded-md flex md:flex-col border-2 border-black shadow-custom-black',
+        'w-80 bg-indigo-300 h-96 rounded-md flex flex-col border-2 border-black shadow-custom-black',
         className
       )}
     >
       <img
         src="./images/design_seminar.png"
         alt={event.title}
-        className="h-full md:h-3/5 rounded-t-md object-cover border-b-2 border-black"
+        className="h-3/5 rounded-t-md object-cover border-b-2 border-black"
       />
       <div className="h-full flex flex-col p-4 gap-2">
         <h5 className="font-semibold text-black text-md text-wrap">

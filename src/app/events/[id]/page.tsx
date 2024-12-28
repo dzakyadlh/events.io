@@ -152,6 +152,7 @@ export default function EventDetail() {
                   <FontAwesomeIcon
                     icon={faBookmarkSolid}
                     onClick={handleBookmark}
+                    className="cursor-pointer"
                   />
                 ) : (
                   <FontAwesomeIcon

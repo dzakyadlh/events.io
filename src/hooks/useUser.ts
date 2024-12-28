@@ -15,3 +15,15 @@ export const useUser = () => {
     queryFn: async () => fetchUser(),
   });
 };
+
+const fetchUserById = async (user_id: string): Promise<User> => {
+  const res = await axiosInstance.get(`/users/${user_id}`);
+  return res.data.data;
+};
+
+export const useUserById = (user_id: string) => {
+  return useQuery({
+    queryKey: ['user', user_id],
+    queryFn: async () => fetchUserById(user_id),
+  });
+};

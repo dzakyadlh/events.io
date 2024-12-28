@@ -22,6 +22,12 @@ const CheckoutSuccess = () => {
 
   const { data: event, error, isLoading } = useEvent(event_id!);
 
+  const transactionData = JSON.parse(
+    sessionStorage.getItem('transactionData')!
+  );
+  console.log('data');
+  console.log(transactionData);
+
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -66,18 +72,18 @@ const CheckoutSuccess = () => {
         <section className="w-full lg:w-2/3 flex flex-col gap-5 items-center px-5">
           <h2 className="text-lg">Payment Method</h2>
           <ul className="w-full flex flex-col gap-2">
-            <li>Prowallet</li>
+            <li>{transactionData['payment_method']}</li>
             <li className="flex items-center justify-between">
-              <p>Account Name:</p>
-              <p>Rei Mizuki</p>
+              <p>Account Number:</p>
+              <p>{transactionData['payment_account_number']}</p>
             </li>
             <li className="flex items-center justify-between">
               <p>Total Amount:</p>
-              <p>$15</p>
+              <p>${numberWithCommas(transactionData['amount'])}</p>
             </li>
             <li className="flex items-center justify-between">
               <p>Date:</p>
-              <p>18 September 2024</p>
+              <p>{ddmmmmyyyy(transactionData['createdAt'])}</p>
             </li>
             <li className="text-blue-400">Download Receipt</li>
           </ul>

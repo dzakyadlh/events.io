@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorAlert from '@/components/alert/errorAlert';
 import { CustomButton } from '@/components/button/button';
 import PaymentCard from '@/components/card/payment_card';
 import { ErrorFetch } from '@/components/error/error_fetch';
@@ -8,6 +9,7 @@ import LoadingScreen from '@/components/loading/loading_screen';
 import Navbar from '@/components/navbar/navbar';
 import { useEvent } from '@/hooks/useEvent';
 import { useRegisterEvent } from '@/hooks/useRegisterEvent';
+import { useAddTransaction } from '@/hooks/useTransactions';
 import { useUser } from '@/hooks/useUser';
 import api from '@/utils/api';
 import {
@@ -31,8 +33,14 @@ const paymentMethod = ['Mastercard', 'Visa', 'Paypal'];
 
 const Checkout = () => {
   const [payment, setPayment] = useState<string | null>(null);
+  const [error, setError] = useState('');
   const router = useRouter();
   const event_id = useSearchParams().get('event_id');
+
+  const { mutate: registerEvent, isPending: registerPending } =
+    useRegisterEvent();
+  const { mutate: addTransaction, isPending: transactionPending } =
+    useAddTransaction();
 
   const {
     data: event,
@@ -54,18 +62,40 @@ const Checkout = () => {
     setPayment(name);
   };
 
-  const { mutate: registerEvent, isPending } = useRegisterEvent();
-
   const handlePayment = async () => {
     if (payment) {
-      registerEvent(
-        { event_id: event?._id! },
+      addTransaction(
         {
-          onSuccess: (data) => {
-            router.push(`checkout/success?event_id=${event?._id}`);
+          amount: event?.price!,
+          payment_method: payment,
+          payment_account_number: '123456789',
+          event_name: event?.title!,
+          event_host: event?.host._id!,
+        },
+        {
+          onSuccess: (transactionData) => {
+            sessionStorage.setItem(
+              'transactionData',
+              JSON.stringify(transactionData)
+            );
+            registerEvent(
+              { event_id: event?._id! },
+              {
+                onSuccess: () => {
+                  router.push(`checkout/success?event_id=${event?._id}`);
+                },
+                onError: (error) => {
+                  console.log(error);
+                  setError(error?.message);
+                  return;
+                },
+              }
+            );
           },
           onError: (error) => {
             console.log(error);
+            setError(error?.message);
+            return;
           },
         }
       );
@@ -130,7 +160,7 @@ const Checkout = () => {
           <CustomButton
             onClick={handlePayment}
             children={
-              isPending ? (
+              registerPending || transactionPending ? (
                 <ClipLoader color="#6366f1" loading={true} size={24} />
               ) : (
                 'Pay Now'
@@ -146,6 +176,7 @@ const Checkout = () => {
           </p>
         </section>
       </main>
+      {error && <ErrorAlert message={error} />}
       <Footer />
     </div>
   );

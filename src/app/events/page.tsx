@@ -79,7 +79,7 @@ const Events = () => {
             return (
               <div
                 key={index}
-                className="rounded-full text-xs sm:text-sm border-black border px-3 sm:px-4 py-2 shadow-custom-black hover:bg-indigo-300 hover:shadow-none hover:font-medium duration-200 flex justify-center items-center min-w-[100px] max-w-[150px] text-center"
+                className="bg-white rounded-full text-xs sm:text-sm border-black border px-3 sm:px-4 py-2 shadow-custom-black hover:bg-indigo-300 hover:shadow-none hover:font-medium duration-200 flex justify-center items-center min-w-[100px] max-w-[150px] text-center"
                 onClick={() => handleCategory(category)}
               >
                 {category}

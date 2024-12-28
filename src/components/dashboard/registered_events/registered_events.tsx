@@ -9,6 +9,8 @@ import { ClassValue } from 'clsx';
 import { dateToHour, ddmmmmyyyy } from '@/utils/date_formatter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faFile } from '@fortawesome/free-solid-svg-icons';
+import { useUserById } from '@/hooks/useUser';
+import LoadingScreen from '@/components/loading/loading_screen';
 
 interface RegisteredEventsProps {
   user: User;
@@ -46,7 +48,7 @@ const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
   function Card({ event }: { event: Event }) {
     return (
       <div
-        onClick={() => {
+        onClick={async () => {
           setEventDetails(event);
           setShowDetails(true);
         }}
@@ -98,7 +100,10 @@ const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
               <p className="text-sm">
                 Speakers: {eventDetails?.details.speakers.join(', ')}
               </p>
-              <p className="text-sm">Host: {eventDetails?.host}</p>
+              <p className="text-sm">
+                Host: {eventDetails?.host.first_name}{' '}
+                {eventDetails?.host.last_name}
+              </p>
             </div>
           </section>
           <section className="w-full flex flex-col gap-5">
@@ -128,7 +133,7 @@ const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
                 <CustomSecondaryButton
                   children="Join Meeting"
                   onClick={() => {}}
-                  className="bg-purple-400"
+                  className="bg-purple-400 hover:bg-purple-500"
                 />
               </li>
             </ul>
@@ -190,12 +195,6 @@ const RegisteredEvents = ({ user }: RegisteredEventsProps) => {
             ) : (
               <div className="flex flex-col">
                 <p className="mb-5">You have no finished events.</p>
-                <CustomSecondaryButton
-                  onClick={() => {
-                    router.push('/events');
-                  }}
-                  children="Go to Events Page"
-                />
               </div>
             )}
           </section>
